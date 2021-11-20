@@ -7,8 +7,6 @@ export class GameEngineComponent extends Component {
     }
 
     componentDidMount() {
-        this.state = {
-            game: new TrashGame(),
-        };
+        this.game = new TrashGame();
     }
 }

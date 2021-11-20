@@ -51,6 +51,6 @@ export class Engine {
     }
 
     isRunning() {
-        return Boolean(this.animation_frame_request != undefined);
+        return Boolean(this.animation_frame_request !== undefined);
     }
 }

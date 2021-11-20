@@ -1,29 +1,36 @@
-export class Player {
-    constructor(x, y) {
+import { Entity } from "./entity";
+import { Display } from "../display";
+import { Controller } from "../controller";
+
+export class Player implements Entity {
+    x: number;
+    y: number;
+
+    width = 64;
+    height = 64;
+    velocity = { x: 0, y: 0 };
+    drag = 0.9;
+    readonly SPEED = 500;
+
+    isJumping = false;
+    justJumped = false;
+    jumpTime = 0;
+    sizeRatio = 1;
+
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.width = 64;
-        this.height = 64;
-
-        this.velocity = { x: 0, y: 0 };
-        this.drag = 0.9;
-        this.SPEED = 500;
-
-        this.isJumping = false;
-        this.justJumped = false;
-        this.jumpTime = 0;
-        this.sizeRatio = 1;
     }
 
-    update(dt) {
+    update(dt: number) {
         // MOVING LEFT AND RIGHT
-        if (this.velocity.x != 0) {
+        if (this.velocity.x !== 0) {
             this.x += this.velocity.x * (1.0 / dt);
             this.velocity.x *= this.drag;
         }
 
         // MOVING UP AND DOWN
-        if (this.velocity.y != 0) this.y += this.velocity.y * (1.0 / dt);
+        if (this.velocity.y !== 0) this.y += this.velocity.y * (1.0 / dt);
         this.velocity.y *= this.drag;
 
         // JUMPING
@@ -47,12 +54,12 @@ export class Player {
         }
     }
 
-    render(display) {
+    render(display: Display) {
         //Render the player to the screen
         display.drawRectangle(this.x, this.y, this.width, this.height, "#FF0000");
     }
 
-    handleInput(controller) {
+    handleInput(controller: Controller) {
         if (controller.up.status && !controller.down.status) {
             //Go down
             this.velocity.y = -this.SPEED;

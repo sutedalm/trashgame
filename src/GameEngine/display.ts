@@ -1,15 +1,17 @@
 export class Display {
-    constructor(canvas) {
-        this.buffer = document.createElement("canvas").getContext("2d");
+    buffer: CanvasRenderingContext2D;
+    context: CanvasRenderingContext2D;
+    constructor(canvas: any) {
+        this.buffer = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
         this.context = canvas.getContext("2d");
     }
 
-    fill(color) {
+    fill(color: string) {
         this.buffer.fillStyle = color;
         this.buffer.fillRect(0, 0, this.buffer.canvas.width, this.buffer.canvas.height);
     }
 
-    drawRectangle(x, y, width, height, color) {
+    drawRectangle(x: number, y: number, width: number, height: number, color: string) {
         this.buffer.fillStyle = color;
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
     }
@@ -18,7 +20,7 @@ export class Display {
         this.context.drawImage(this.buffer.canvas, 0, 0);
     }
 
-    resize(width, height) {
+    resize(width: number, height: number) {
         this.context.canvas.width = Math.floor(width);
         this.context.canvas.height = Math.floor(height);
 

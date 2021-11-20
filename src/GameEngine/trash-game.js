@@ -10,7 +10,7 @@ export class TrashGame {
         /* Display handles window resizing */
         this.display = new Display(document.querySelector("canvas"));
         /* Display handles the game logic */
-        this.game = new Game();
+        this.game = new Game(this.display);
 
         let fps = 30;
         /* Engine combines the controller, display and game */
@@ -46,8 +46,7 @@ export class TrashGame {
 
         this.display.fill(this.game.color);
 
-        //For every object to render
-        this.game.player.render(this.display);
+        this.game.render(this.display);
 
         this.display.render();
     }
@@ -61,49 +60,45 @@ export class TrashGame {
         height = document.documentElement.clientHeight;
         width = document.documentElement.clientWidth;
 
+        // Update the correct values on the display class
         this.display.resize(width, height);
+
+        // Finally tell the game that a resize happened
+        this.game.resizeEvent(this.display);
     }
 
     keyDown(event) {
         // event.preventDefault()
 
-        switch (event.keyCode) {
-            case 90:
-                this.controller.up.trigger(true);
-                break;
-            case 81:
-                this.controller.left.trigger(true);
-                break;
-            case 68:
-                this.controller.right.trigger(true);
-                break;
-            case 83:
-                this.controller.down.trigger(true);
-                break;
-            case 32:
-                this.controller.space.trigger(true);
-                break;
-        }
+        this.triggerController(event.keyCode, true);
     }
 
     keyUp(event) {
         // event.preventDefault()
+        this.triggerController(event.keyCode, false);
+    }
 
-        switch (event.keyCode) {
+    triggerController(keyCode, status) {
+        switch (keyCode) {
             case 90:
-                this.controller.up.trigger(false);
+                this.controller.up.trigger(status);
                 break;
             case 81:
-                this.controller.left.trigger(false);
+                this.controller.left.trigger(status);
                 break;
             case 68:
-                this.controller.right.trigger(false);
+                this.controller.right.trigger(status);
                 break;
             case 83:
-                this.controller.down.trigger(false);
+                this.controller.down.trigger(status);
                 break;
             case 32:
-                this.controller.space.trigger(false);
+                this.controller.space.trigger(status);
+                break;
+            case 13:
+                this.controller.enter.trigger(status);
+                break;
+            default:
                 break;
         }
     }
