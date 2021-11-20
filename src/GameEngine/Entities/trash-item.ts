@@ -25,6 +25,11 @@ export class TrashItem implements Entity {
     private selectedTile = 2;
     private elapsedTime = 0;
 
+    // Tile Transition
+    private tileTransitionStartTime = 0;
+    private readonly tileTransitionDuration = 0.5 * 1000; // 0.5s
+    private tileTransitionStartX = 0;
+
     constructor(x: number, y: number, category: number, name: string, game: Game) {
         this.x = x;
         this.y = y;
@@ -63,18 +68,27 @@ export class TrashItem implements Entity {
 
             if (this.selectedTile !== newSelectedTile) {
                 // Tile changed since last time
-
-                // Transition between the tiles
                 this.selectedTile = newSelectedTile;
+
+                this.tileTransitionStartX = this.x;
+
+                // Transition between the tiles on the x axis
+                this.tileTransitionStartTime = this.elapsedTime;
+                this.doTileTransition(dt);
+            } else if (
+                this.elapsedTime <
+                this.tileTransitionStartTime + this.tileTransitionDuration
+            ) {
+                this.doTileTransition(dt);
             } else {
                 // Tile the same as before
-                this.x = this.game.currentWidth * (0.333 * this.selectedTile - 0.166);
+                this.x = this.getTileCenter(this.selectedTile);
 
                 // "Leaf swing" animation
-                this.x += Math.sin(this.elapsedTime * 0.002) * 50;
+                this.x = this.getPositionX(this.x, this.elapsedTime);
             }
 
-            this.y += 0.1 * dt; //TODO: Adapt the speed depending on height, so that it takes same amount of time
+            // this.y += 0.1 * dt; //TODO: Adapt the speed depending on height, so that it takes same amount of time
 
             // If the user didn't squat before end of the game
             if (this.y + this.height / 2 >= this.game.cameraCanvasHeight) {
@@ -83,6 +97,29 @@ export class TrashItem implements Entity {
                 this.game.removeEntity(this.id);
             }
         }
+    }
+
+    /// Returns the positionX at a given time
+    private getPositionX(x: number, elapsedTime: number) {
+        return x + Math.sin(elapsedTime * 0.002) * 50;
+    }
+
+    private getTileCenter(tileId: number) {
+        return this.game.currentWidth * (0.333 * tileId - 0.166);
+    }
+
+    private doTileTransition(dt: number) {
+        let startX = this.tileTransitionStartX;
+        let endTileCenter = this.getTileCenter(this.selectedTile);
+        let endX = this.getPositionX(
+            endTileCenter,
+            this.tileTransitionStartTime + this.tileTransitionDuration
+        );
+
+        let t = (this.elapsedTime - this.tileTransitionStartTime) / this.tileTransitionDuration;
+
+        // Interpolate between start and endX
+        this.x = startX + t * (endX - startX);
     }
 
     static createRandom(game: Game) {
