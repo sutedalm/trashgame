@@ -1,10 +1,18 @@
-import { GameEngineComponent } from "../GameEngine/GameEngineComponent";
 import "./MainPage.css";
 import { Link } from "react-router-dom";
+import FlyingApple from "./flyingIcons/FlyingApple";
+import FlyingCan from "./flyingIcons/FlyingCan";
 
 function MainPage() {
     return (
         <div className="mainPageContainer">
+            <div class="flier">
+                <FlyingApple />
+            </div>
+            {/* <div class="flier">
+                <FlyingCan />
+            </div> */}
+
             <div className="mainPageHeader">
                 <text className="mainPageHeaderName">Team Fitlez</text>
             </div>
