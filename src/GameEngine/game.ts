@@ -12,7 +12,7 @@ export class Game {
     private gui: Entity[] = [];
 
     /* Background - temp */
-    private color = "rgb(255,255,255)";
+    private color = "rgba(255,255,255)";
     private colorOpp = "rgb(0,0,0)";
     private colorOppGray = "rgb(0,0,0)";
     private colors = [255, 255, 255];
@@ -44,7 +44,6 @@ export class Game {
         this.gui = [];
         this.tiles = [];
 
-        console.log("width: ", width);
         // Init the Tiles for the 3 zones
         this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#00FFFF25"));
         this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#FF00FF25"));

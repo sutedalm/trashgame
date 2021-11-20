@@ -16,6 +16,10 @@ export class Display {
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
     }
 
+    drawImage(x: number, y: number, width: number, height: number, imageUrl: string) {
+        //TODO
+    }
+
     render() {
         this.context.drawImage(this.buffer.canvas, 0, 0);
     }
