@@ -27,9 +27,15 @@ export class Game {
     private currentWidth = 0;
     private currentHeight = 0;
 
+    public cameraCanvasWidth: number;
+    public cameraCanvasHeight: number;
+
     constructor(display: Display) {
         this.currentWidth = display.context.canvas.width;
         this.currentHeight = display.context.canvas.height;
+
+        this.cameraCanvasWidth = display.cameraCanvasWidth;
+        this.cameraCanvasHeight = display.cameraCanvasHeight;
 
         this.initAssets();
     }
@@ -127,6 +133,9 @@ export class Game {
     resizeEvent(display: Display) {
         this.currentWidth = display.context.canvas.width;
         this.currentHeight = display.context.canvas.height;
+
+        this.cameraCanvasHeight = display.cameraCanvasHeight;
+        this.cameraCanvasWidth = display.cameraCanvasWidth;
 
         // Update the GUI to the new size
         this.initGUI();

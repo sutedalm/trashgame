@@ -10,6 +10,9 @@ export class Display {
     private camDebugCanvas: CanvasImageSource;
     private camDebugCanvasContext: CanvasRenderingContext2D;
 
+    public cameraCanvasWidth: number;
+    public cameraCanvasHeight: number;
+
     private imageLoader: ImageLoader;
 
     constructor(canvas: any) {
@@ -28,6 +31,9 @@ export class Display {
         // @ts-ignore
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
         this.imageLoader = new ImageLoader(["bio/apple.png"])
+
+        this.cameraCanvasWidth = this.camDebugCanvas.width as number;
+        this.cameraCanvasHeight = this.camDebugCanvas.height as number;
     }
 
     fill(color: string) {
@@ -80,6 +86,9 @@ export class Display {
 
         this.camDebugCanvasContext.canvas.width = newCameraWidth;
         this.camDebugCanvasContext.canvas.height = newCameraHeight;
+
+        this.cameraCanvasWidth = newCameraWidth;
+        this.cameraCanvasHeight = newCameraHeight;
 
         this.context.imageSmoothingEnabled = false;
     }
