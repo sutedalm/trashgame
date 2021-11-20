@@ -1,4 +1,5 @@
-import {ImageLoader} from "./imageloader";
+import { ImageLoader } from "./imageloader";
+import { TrashItem } from "./Entities/trash-item";
 
 export class Display {
     buffer: CanvasRenderingContext2D;
@@ -18,7 +19,7 @@ export class Display {
     constructor(canvas: any) {
         this.buffer = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
         this.context = canvas.getContext("2d");
-        this.context.setTransform(1,0,0,-1,0,this.context.canvas.height);
+        this.context.setTransform(1, 0, 0, -1, 0, this.context.canvas.height);
 
         this.cameraCanvas = document.querySelector(
             ".handsfree-canvas-video"
@@ -31,7 +32,7 @@ export class Display {
         ) as unknown as CanvasImageSource;
         // @ts-ignore
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
-        this.imageLoader = new ImageLoader(["bio/apple.png"])
+        this.imageLoader = new ImageLoader(TrashItem.getImagesToLoad());
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;
         this.cameraCanvasHeight = this.camDebugCanvas.height as number;
@@ -44,10 +45,10 @@ export class Display {
 
     clear() {
         this.buffer.clearRect(0, 0, this.buffer.canvas.width, this.buffer.canvas.height);
-        this.buffer.setTransform(-1,0,0,1, this.context.canvas.width, 0);
+        this.buffer.setTransform(-1, 0, 0, 1, this.context.canvas.width, 0);
         this.buffer.drawImage(this.cameraCanvas, 0, 0);
         this.buffer.drawImage(this.camDebugCanvas, 0, 0);
-        this.buffer.setTransform(1,0,0,1, 0, 0);
+        this.buffer.setTransform(1, 0, 0, 1, 0, 0);
     }
 
     drawRectangle(x: number, y: number, width: number, height: number, color: string) {
@@ -56,10 +57,16 @@ export class Display {
     }
 
     drawImage(x: number, y: number, width: number, height: number, name: string) {
-        if(this.imageLoader.isLoaded) {
-            this.buffer.drawImage(this.imageLoader.getImage(name), Math.floor(x), Math.floor(y), width, height)
+        if (this.imageLoader.isLoaded) {
+            this.buffer.drawImage(
+                this.imageLoader.getImage(name),
+                Math.floor(x),
+                Math.floor(y),
+                width,
+                height
+            );
         } else {
-            this.drawRectangle(x, y, width, height, "red")
+            this.drawRectangle(x, y, width, height, "red");
         }
     }
 
