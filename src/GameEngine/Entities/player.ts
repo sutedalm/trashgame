@@ -1,11 +1,19 @@
 import { Entity } from "./entity";
 import { Display } from "../display";
 import { Controller } from "../controller";
+import { v4 as uuid } from "uuid";
+import { Tile } from "./tile";
+import { Game } from "../game";
+import { EventManager } from "../Events/eventManager";
+import { EntityEnterTileEvent } from "../Events/entityEnterTileEvent";
+import { EntityLeaveTileEvent } from "../Events/entityLeaveTileEvent";
 
 export class Player implements Entity {
     x: number;
     y: number;
+    id = uuid();
 
+    game: Game;
     width = 64;
     height = 64;
     velocity = { x: 0, y: 0 };
@@ -17,9 +25,12 @@ export class Player implements Entity {
     jumpTime = 0;
     sizeRatio = 1;
 
-    constructor(x: number, y: number) {
+    currentTile: Tile | undefined;
+
+    constructor(x: number, y: number, game: Game) {
         this.x = x;
         this.y = y;
+        this.game = game;
     }
 
     update(dt: number) {
@@ -52,6 +63,16 @@ export class Player implements Entity {
             this.width = 64;
             this.height = 64;
         }
+
+        // Get the current tile
+        let oldTile = this.currentTile;
+        this.currentTile = this.game.getTileByPos(this.x);
+        if (oldTile !== this.currentTile) {
+            if (oldTile) {
+                EventManager.OnEntityLeaveTileEvent(new EntityLeaveTileEvent(oldTile, this));
+            }
+            EventManager.OnEntityEnterTileEvent(new EntityEnterTileEvent(this.currentTile, this));
+        }
     }
 
     render(display: Display) {
@@ -60,13 +81,13 @@ export class Player implements Entity {
     }
 
     handleInput(controller: Controller) {
-        if (controller.up.status && !controller.down.status) {
-            //Go down
-            this.velocity.y = -this.SPEED;
-        } else if (controller.down.status && !controller.up.status) {
-            //Go up
-            this.velocity.y = this.SPEED;
-        }
+        // if (controller.up.status && !controller.down.status) {
+        //     //Go down
+        //     this.velocity.y = -this.SPEED;
+        // } else if (controller.down.status && !controller.up.status) {
+        //     //Go up
+        //     this.velocity.y = this.SPEED;
+        // }
 
         if (controller.left.status && !controller.right.status) {
             //Go left

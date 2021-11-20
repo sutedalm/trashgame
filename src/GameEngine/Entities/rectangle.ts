@@ -1,9 +1,12 @@
 import { Entity } from "./entity";
 import { Display } from "../display";
+import { v4 as uuid } from "uuid";
 
 export class Rectangle implements Entity {
     x: number;
     y: number;
+    id = uuid();
+
     width: number;
     height: number;
     color: string;
