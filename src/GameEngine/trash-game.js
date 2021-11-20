@@ -9,6 +9,7 @@ export class TrashGame {
         this.controller = new Controller();
         /* Display handles window resizing */
         this.display = new Display(document.querySelector("canvas"));
+
         /* Display handles the game logic */
         this.game = new Game(this.display);
 
@@ -44,7 +45,7 @@ export class TrashGame {
             return;
         }
 
-        this.display.fill(this.game.color);
+        this.display.clear();
 
         this.game.render(this.display);
 
