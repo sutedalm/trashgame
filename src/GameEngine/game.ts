@@ -4,7 +4,7 @@ import { Controller } from "./controller";
 import { Display } from "./display";
 import { Rectangle } from "./Entities/rectangle";
 import { Tile } from "./Entities/tile";
-import {TrashItem} from "./Entities/trash-item";
+import { TrashItem } from "./Entities/trash-item";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -22,7 +22,6 @@ export class Game {
     private lastUpdate = 0;
 
     private player = new Player(0, 0, this);
-    private trashItem = new TrashItem(100, 100)
 
     private currentWidth = 0;
     private currentHeight = 0;
@@ -42,7 +41,7 @@ export class Game {
 
     initAssets() {
         this.initGUI();
-        this.entities.push(this.trashItem)
+        this.addEntity(TrashItem.createRandom(this));
     }
 
     initGUI() {
@@ -160,7 +159,7 @@ export class Game {
         }
     }
 
-    addEntity(e : Entity) {
-        this.entities.push(e)
+    addEntity(e: Entity) {
+        this.entities.push(e);
     }
 }

@@ -2,6 +2,7 @@ import "./MainPage.css";
 import { Link } from "react-router-dom";
 import FlyingApple from "./flyingIcons/FlyingApple";
 import FlyingCan from "./flyingIcons/FlyingCan";
+import CopyClipboardButton from "../components/CopyClipboardButton/CopyClipboardButton";
 
 function MainPage() {
     return (
@@ -28,10 +29,8 @@ function MainPage() {
                     <h2 className="leftBodyHeader">Multiplayer</h2>
                     <h5 className="leftBodySubHeader">Try it out, now!</h5>
                     <div className="rightBodyButtons">
-                        <button className="button">
-                            <span>CREATE A GAME</span>
-                        </button>
-                        <button className="button">
+                        <CopyClipboardButton />
+                        <button class="button">
                             <span>JOIN A GAME</span>
                         </button>
                     </div>

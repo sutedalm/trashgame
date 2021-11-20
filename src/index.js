@@ -9,8 +9,9 @@ import { GameEngineComponent } from "./GameEngine/GameEngineComponent";
 
 window.handsfree = new Handsfree({ pose: true, showDebug: true });
 window.handsfree.enablePlugins("browser");
-window.handsfree.start();
-
+window.handsfree.start(() => {
+    window.handsfree.pause();
+});
 ReactDOM.render(
     <Router>
         <React.StrictMode>
