@@ -1,9 +1,19 @@
 import Header from "../components/Header/Header";
 import { getDataFromDatabase } from "./serverapi";
 import Table from "./Table";
+import { useEffect, useState } from "react";
+// import useFetch from "react-fetch-hook";
 
 function Scoreboard() {
-    getDataFromDatabase();
+    const [scoreData, setScoreData] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const fetchedData = await getDataFromDatabase();
+            setScoreData(fetchedData);
+        })();
+    }, []);
+
     let data = [
         { USERNAME: "Apple", SCORE: 100 },
         { USERNAME: "Orange", SCORE: 50 },
@@ -16,7 +26,7 @@ function Scoreboard() {
     return (
         <div>
             <Header />
-            <Table data={data} />
+            <Table data={scoreData} />
         </div>
     );
 }
