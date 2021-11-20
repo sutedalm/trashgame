@@ -8,6 +8,9 @@ export class Display {
     private camDebugCanvas: CanvasImageSource;
     private camDebugCanvasContext: CanvasRenderingContext2D;
 
+    public cameraCanvasWidth: number;
+    public cameraCanvasHeight: number;
+
     constructor(canvas: any) {
         this.buffer = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
         this.context = canvas.getContext("2d");
@@ -23,6 +26,9 @@ export class Display {
         ) as unknown as CanvasImageSource;
         // @ts-ignore
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
+
+        this.cameraCanvasWidth = this.camDebugCanvas.width as number;
+        this.cameraCanvasHeight = this.camDebugCanvas.height as number;
     }
 
     fill(color: string) {
@@ -71,6 +77,9 @@ export class Display {
 
         this.camDebugCanvasContext.canvas.width = newCameraWidth;
         this.camDebugCanvasContext.canvas.height = newCameraHeight;
+
+        this.cameraCanvasWidth = newCameraWidth;
+        this.cameraCanvasHeight = newCameraHeight;
 
         this.context.imageSmoothingEnabled = false;
     }
