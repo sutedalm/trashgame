@@ -1,15 +1,32 @@
-thead {
-    color: green;
+.scoreboardTable {
+    border: 1px solid black;
+    width: 50%;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 }
-tbody {
-    color: blue;
-}
-table,
+
 th,
 td {
-    border: 1px solid black;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
-td,
+tr:hover {
+    background-color: #ffdead;
+}
+
+.tableContainer {
+    width: 100%;
+}
+
 th {
-    padding: 5px;
+    background-color: #b36c02;
+    color: white;
+    border-bottom: 1px solid #000;
+}
+
+td {
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
 }

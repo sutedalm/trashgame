@@ -1,4 +1,5 @@
 import { Component } from "react";
+import "./Table.css";
 
 export default class Table extends Component {
     constructor(props) {
@@ -32,9 +33,9 @@ export default class Table extends Component {
     };
     render() {
         return (
-            <div>
-                <table>
-                    <thead>
+            <div className="tableContainer">
+                <table className="scoreboardTable">
+                    <thead className="scoreboardThead">
                         <tr>{this.getHeader()}</tr>
                     </thead>
                     <tbody>{this.getRowsData()}</tbody>

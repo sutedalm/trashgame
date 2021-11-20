@@ -5,13 +5,13 @@ import Table from "./Table";
 function Scoreboard() {
     getDataFromDatabase();
     let data = [
-        { fruit: "Apple", cost: 100 },
-        { fruit: "Orange", cost: 50 },
-        { fruit: "Banana", cost: 35 },
-        { fruit: "Mango", cost: 70 },
-        { fruit: "Pineapple", cost: 45 },
-        { fruit: "Papaya", cost: 40 },
-        { fruit: "Watermelon", cost: 35 },
+        { USERNAME: "Apple", SCORE: 100 },
+        { USERNAME: "Orange", SCORE: 50 },
+        { USERNAME: "Banana", SCORE: 35 },
+        { USERNAME: "Mango", SCORE: 70 },
+        { USERNAME: "Pineapple", SCORE: 45 },
+        { USERNAME: "Papaya", SCORE: 40 },
+        { USERNAME: "Watermelon", SCORE: 35 },
     ];
     return (
         <div>
