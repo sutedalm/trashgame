@@ -27,7 +27,7 @@ export class TrashItem implements Entity {
         return this.level * 3;
     }
     private velocityY = this.startVelocity;
-    private level = 1; // 1 easiest - 10 hardest
+    private level = 10; // 1 easiest - 10 hardest
 
     // Either tile 1 2 or 3
     private selectedTile = 2;
@@ -104,13 +104,14 @@ export class TrashItem implements Entity {
                 this.velocityY += dt * 0.003 * this.level * 0.5 * heightRatio;
             }
 
-            this.y += this.velocityY; //TODO:
+            this.y += this.velocityY;
 
             // If the user didn't squat before end of the game
             if (this.y + this.height / 2 >= this.game.cameraCanvasHeight) {
                 this.game.subtractLife();
                 this.active = false;
                 this.game.removeEntity(this.id);
+                this.game.addEntity(TrashItem.createRandom(this.game));
             }
         }
     }

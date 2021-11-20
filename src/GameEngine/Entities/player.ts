@@ -7,6 +7,7 @@ import { Game } from "../game";
 import { EventManager } from "../Events/eventManager";
 import { EntityEnterTileEvent } from "../Events/entityEnterTileEvent";
 import { EntityLeaveTileEvent } from "../Events/entityLeaveTileEvent";
+import { TrashItem } from "./trash-item";
 
 export class Player implements Entity {
     x: number;
@@ -53,10 +54,12 @@ export class Player implements Entity {
                 this.game.addPoints(100);
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
+                this.game.addEntity(TrashItem.createRandom(this.game));
             } else if (activeTrash != null) {
                 this.game.subtractLife();
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
+                this.game.addEntity(TrashItem.createRandom(this.game));
             }
         } else if (handsfreeY < 0.4 && this.isInExercise) {
             this.isInExercise = false;
