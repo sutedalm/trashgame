@@ -4,6 +4,7 @@ import { Controller } from "./controller";
 import { Display } from "./display";
 import { Rectangle } from "./Entities/rectangle";
 import { Tile } from "./Entities/tile";
+import {TrashItem} from "./Entities/trash-item";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -21,19 +22,27 @@ export class Game {
     private lastUpdate = 0;
 
     private player = new Player(0, 0, this);
+    private trashItem = new TrashItem(100, 100)
 
     private currentWidth = 0;
     private currentHeight = 0;
 
+    public cameraCanvasWidth: number;
+    public cameraCanvasHeight: number;
+
     constructor(display: Display) {
         this.currentWidth = display.context.canvas.width;
         this.currentHeight = display.context.canvas.height;
+
+        this.cameraCanvasWidth = display.cameraCanvasWidth;
+        this.cameraCanvasHeight = display.cameraCanvasHeight;
 
         this.initAssets();
     }
 
     initAssets() {
         this.initGUI();
+        this.entities.push(this.trashItem)
     }
 
     initGUI() {
@@ -125,6 +134,9 @@ export class Game {
         this.currentWidth = display.context.canvas.width;
         this.currentHeight = display.context.canvas.height;
 
+        this.cameraCanvasHeight = display.cameraCanvasHeight;
+        this.cameraCanvasWidth = display.cameraCanvasWidth;
+
         // Update the GUI to the new size
         this.initGUI();
     }
@@ -146,5 +158,9 @@ export class Game {
         } else {
             return this.tiles[2];
         }
+    }
+
+    addEntity(e : Entity) {
+        this.entities.push(e)
     }
 }

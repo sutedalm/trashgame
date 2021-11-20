@@ -1,3 +1,5 @@
+import {ImageLoader} from "./imageloader";
+
 export class Display {
     buffer: CanvasRenderingContext2D;
     context: CanvasRenderingContext2D;
@@ -8,9 +10,15 @@ export class Display {
     private camDebugCanvas: CanvasImageSource;
     private camDebugCanvasContext: CanvasRenderingContext2D;
 
+    public cameraCanvasWidth: number;
+    public cameraCanvasHeight: number;
+
+    private imageLoader: ImageLoader;
+
     constructor(canvas: any) {
         this.buffer = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
         this.context = canvas.getContext("2d");
+        this.context.setTransform(1,0,0,-1,0,this.context.canvas.height);
 
         this.cameraCanvas = document.querySelector(
             ".handsfree-canvas-video"
@@ -23,6 +31,10 @@ export class Display {
         ) as unknown as CanvasImageSource;
         // @ts-ignore
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
+        this.imageLoader = new ImageLoader(["bio/apple.png"])
+
+        this.cameraCanvasWidth = this.camDebugCanvas.width as number;
+        this.cameraCanvasHeight = this.camDebugCanvas.height as number;
     }
 
     fill(color: string) {
@@ -32,9 +44,10 @@ export class Display {
 
     clear() {
         this.buffer.clearRect(0, 0, this.buffer.canvas.width, this.buffer.canvas.height);
-
+        this.buffer.setTransform(-1,0,0,1, this.context.canvas.width, 0);
         this.buffer.drawImage(this.cameraCanvas, 0, 0);
         this.buffer.drawImage(this.camDebugCanvas, 0, 0);
+        this.buffer.setTransform(1,0,0,1, 0, 0);
     }
 
     drawRectangle(x: number, y: number, width: number, height: number, color: string) {
@@ -42,8 +55,12 @@ export class Display {
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
     }
 
-    drawImage(x: number, y: number, width: number, height: number, imageUrl: string) {
-        //TODO
+    drawImage(x: number, y: number, width: number, height: number, name: string) {
+        if(this.imageLoader.isLoaded) {
+            this.buffer.drawImage(this.imageLoader.getImage(name), Math.floor(x), Math.floor(y), width, height)
+        } else {
+            this.drawRectangle(x, y, width, height, "red")
+        }
     }
 
     render() {
@@ -71,6 +88,9 @@ export class Display {
 
         this.camDebugCanvasContext.canvas.width = newCameraWidth;
         this.camDebugCanvasContext.canvas.height = newCameraHeight;
+
+        this.cameraCanvasWidth = newCameraWidth;
+        this.cameraCanvasHeight = newCameraHeight;
 
         this.context.imageSmoothingEnabled = false;
     }

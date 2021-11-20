@@ -6,8 +6,16 @@ export class TrashItem implements Entity {
     x = 0;
     y = 0;
     id = uuid();
+    item_name = "bio/apple.png";
 
-    render(display: Display): void {}
+    constructor(x : number, y : number) {
+        this.x = x
+        this.y = y
+    }
+
+    render(display: Display): void {
+        display.drawImage(this.x, this.y, 64, 64, this.item_name);
+    }
 
     update(dt: number): void {}
 }
