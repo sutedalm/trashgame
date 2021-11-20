@@ -21,6 +21,10 @@ export class TrashItem implements Entity {
     game: Game;
     active = true;
 
+    // Either tile 1 2 or 3
+    private selectedTile = 2;
+    private elapsedTime = 0;
+
     constructor(x: number, y: number, category: number, name: string, game: Game) {
         this.x = x;
         this.y = y;
@@ -40,16 +44,43 @@ export class TrashItem implements Entity {
     }
 
     update(dt: number): void {
+        this.elapsedTime += dt;
+
         if (this.active) {
             const convertRelativePos = (relPos: number, absLength: number) => relPos * absLength;
             const handsfreeX = (window as any).handsfree?.data?.pose?.poseLandmarks?.[0]?.x;
-            this.x = convertRelativePos(1 - handsfreeX, this.game.cameraCanvasWidth) || this.x;
+            const convertedX =
+                convertRelativePos(1 - handsfreeX, this.game.cameraCanvasWidth) || this.x;
+
+            let newSelectedTile;
+            if (convertedX < this.game.currentWidth * 0.333) {
+                newSelectedTile = 1;
+            } else if (convertedX < this.game.currentWidth * 0.666) {
+                newSelectedTile = 2;
+            } else {
+                newSelectedTile = 3;
+            }
+
+            if (this.selectedTile !== newSelectedTile) {
+                // Tile changed since last time
+
+                // Transition between the tiles
+                this.selectedTile = newSelectedTile;
+            } else {
+                // Tile the same as before
+                this.x = this.game.currentWidth * (0.333 * this.selectedTile - 0.166);
+
+                // "Leaf swing" animation
+                this.x += Math.sin(this.elapsedTime * 0.002) * 50;
+            }
+
+            this.y += 0.1 * dt; //TODO: Adapt the speed depending on height, so that it takes same amount of time
+
+            // If the user didn't squat before end of the game
             if (this.y + this.height / 2 >= this.game.cameraCanvasHeight) {
                 this.game.subtractLife();
                 this.active = false;
                 this.game.removeEntity(this.id);
-            } else {
-                this.y += 1;
             }
         }
     }

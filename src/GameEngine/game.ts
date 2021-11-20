@@ -24,8 +24,8 @@ export class Game {
 
     private player = new Player(0, 0, this);
     private scoreboard = new Scoreboard(this);
-    private currentWidth = 0;
-    private currentHeight = 0;
+    public currentWidth = 0;
+    public currentHeight = 0;
 
     public cameraCanvasWidth: number;
     public cameraCanvasHeight: number;
