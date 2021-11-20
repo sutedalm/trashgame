@@ -11,8 +11,6 @@ export class TrashItem implements Entity {
         ["apple", "drip", "green-tea", "orange", "tea"],
     ];
 
-    x = 0;
-    y = 0;
     width = 64;
     height = 64;
     id = uuid();
@@ -20,6 +18,16 @@ export class TrashItem implements Entity {
     category: number;
     game: Game;
     active = true;
+
+    x = 0;
+    y = 0;
+
+    private readonly startVelocity = 0.2;
+    private get maxVelocity() {
+        return this.level * 3;
+    }
+    private velocityY = this.startVelocity;
+    private level = 1; // 1 easiest - 10 hardest
 
     // Either tile 1 2 or 3
     private selectedTile = 2;
@@ -85,10 +93,18 @@ export class TrashItem implements Entity {
                 this.x = this.getTileCenter(this.selectedTile);
 
                 // "Leaf swing" animation
-                this.x = this.getPositionX(this.x, this.elapsedTime);
+                this.x = TrashItem.getPositionX(this.x, this.elapsedTime);
             }
 
-            // this.y += 0.1 * dt; //TODO: Adapt the speed depending on height, so that it takes same amount of time
+            // Adapt the speed depending on height, so that it always takes same amount of time
+            // for different heights of screens
+            let heightRatio = this.game.cameraCanvasHeight / 1080;
+
+            if (this.velocityY < this.maxVelocity) {
+                this.velocityY += dt * 0.003 * this.level * 0.5 * heightRatio;
+            }
+
+            this.y += this.velocityY; //TODO:
 
             // If the user didn't squat before end of the game
             if (this.y + this.height / 2 >= this.game.cameraCanvasHeight) {
@@ -100,7 +116,7 @@ export class TrashItem implements Entity {
     }
 
     /// Returns the positionX at a given time
-    private getPositionX(x: number, elapsedTime: number) {
+    private static getPositionX(x: number, elapsedTime: number) {
         return x + Math.sin(elapsedTime * 0.002) * 50;
     }
 
@@ -111,7 +127,7 @@ export class TrashItem implements Entity {
     private doTileTransition(dt: number) {
         let startX = this.tileTransitionStartX;
         let endTileCenter = this.getTileCenter(this.selectedTile);
-        let endX = this.getPositionX(
+        let endX = TrashItem.getPositionX(
             endTileCenter,
             this.tileTransitionStartTime + this.tileTransitionDuration
         );

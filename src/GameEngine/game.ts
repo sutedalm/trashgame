@@ -6,6 +6,8 @@ import { Rectangle } from "./Entities/rectangle";
 import { Tile } from "./Entities/tile";
 import { TrashItem } from "./Entities/trash-item";
 import { Scoreboard } from "./Entities/scoreboard";
+import socket, { MultiplayerController } from "./multiplayer";
+import { Player2 } from "./Entities/player2";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -20,7 +22,7 @@ export class Game {
     private colors = [255, 255, 255];
     private shifts = [1, 1, 1];
 
-    private lastUpdate = 0;
+    private lastUpdate: number | undefined;
 
     private player = new Player(0, 0, this);
     private scoreboard = new Scoreboard(this);
@@ -30,14 +32,23 @@ export class Game {
     public cameraCanvasWidth: number;
     public cameraCanvasHeight: number;
 
-    constructor(display: Display) {
+    private serverId: string;
+    private multiplayerController = new MultiplayerController();
+
+    constructor(display: Display, serverId: string) {
         this.currentWidth = display.context.canvas.width;
         this.currentHeight = display.context.canvas.height;
 
         this.cameraCanvasWidth = display.cameraCanvasWidth;
         this.cameraCanvasHeight = display.cameraCanvasHeight;
 
+        this.serverId = serverId;
+
         this.initAssets();
+
+        if(this.serverId){
+            this.addEntity(new Player2(this, this.multiplayerController));
+        }
     }
 
     initAssets() {
@@ -65,6 +76,8 @@ export class Game {
     }
 
     update(time_stamp: number) {
+        if (!this.lastUpdate) this.lastUpdate = time_stamp;
+
         let dt = time_stamp - this.lastUpdate;
         if (dt === 0) return;
 
@@ -103,6 +116,15 @@ export class Game {
             ")";
         let minOppColor = 255 - Math.max(Math.max(this.colors[0], this.colors[1]), this.colors[2]);
         this.colorOppGray = "rgb(" + minOppColor + "," + minOppColor + "," + minOppColor + ")";
+
+        // multiplayer
+        const requestBody = {
+            player: {
+                x: this.player.x,
+                y: this.player.y,
+            }
+        }
+        socket.emit("game update", this.serverId,  requestBody);
     }
 
     render(display: Display) {

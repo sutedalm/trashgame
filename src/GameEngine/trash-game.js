@@ -4,14 +4,14 @@ import { Game } from "./game";
 import { Engine } from "./engine";
 
 export class TrashGame {
-    constructor() {
+    constructor(serverId) {
         /* Controller handles user input */
         this.controller = new Controller();
         /* Display handles window resizing */
         this.display = new Display(document.querySelector("canvas"));
 
         /* Display handles the game logic */
-        this.game = new Game(this.display);
+        this.game = new Game(this.display, serverId);
 
         let fps = 30;
         /* Engine combines the controller, display and game */
@@ -61,11 +61,15 @@ export class TrashGame {
         height = document.documentElement.clientHeight;
         width = document.documentElement.clientWidth;
 
-        // Update the correct values on the display class
-        this.display.resize(width, height);
+        if (this.display) {
+            // Update the correct values on the display class
+            this.display.resize(width, height);
+        }
 
-        // Finally tell the game that a resize happened
-        this.game.resizeEvent(this.display);
+        if (this.game) {
+            // Finally tell the game that a resize happened
+            this.game.resizeEvent(this.display);
+        }
     }
 
     keyDown(event) {
@@ -102,5 +106,16 @@ export class TrashGame {
             default:
                 break;
         }
+    }
+
+    stop() {
+        window.removeEventListener("resize", this.resize.bind(this));
+        window.removeEventListener("keydown", this.keyDown.bind(this));
+        window.removeEventListener("keyup", this.keyUp.bind(this));
+
+        delete this.controller;
+        delete this.display;
+        delete this.engine;
+        delete this.game;
     }
 }
