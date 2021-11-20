@@ -39,9 +39,6 @@ function MainPage({ serverId, setServerId }) {
                     </div>
                 </div>
             </div>
-            <Link to="/scoreboard" className="button">
-                <span>SCOREBOARD</span>
-            </Link>
         </div>
     );
 }
