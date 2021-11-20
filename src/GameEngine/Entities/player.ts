@@ -47,6 +47,8 @@ export class Player implements Entity {
             EventManager.OnEntityEnterTileEvent(new EntityEnterTileEvent(this.currentTile, this));
         }
 
+        if (this.game.isGamePaused) return;
+
         if (handsfreeY > 0.6 && !this.isInExercise) {
             this.isInExercise = true;
             let activeTrash = this.game.getActiveTrashIcon();

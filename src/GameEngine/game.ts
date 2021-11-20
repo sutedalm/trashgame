@@ -27,6 +27,7 @@ export class Game {
     public cameraCanvasHeight: number;
 
     private serverId: string;
+    public isGamePaused: boolean = false;
     private multiplayerController = new MultiplayerController();
 
     public gameEvents: GameEventController;
@@ -84,9 +85,11 @@ export class Game {
         //Update the player
         this.player.update(dt);
 
-        // Update all the entities
-        for (let entity of this.entities) {
-            entity.update(dt);
+        if (!this.isGamePaused) {
+            // Update all the entities
+            for (let entity of this.entities) {
+                entity.update(dt);
+            }
         }
 
         // multiplayer
@@ -166,8 +169,7 @@ export class Game {
     subtractLife() {
         this.scoreboard.lifes -= 1;
         if (this.scoreboard.lifes === 0) {
-            //TODO game over
-            this.gameEvents.onGameOver.next(this.scoreboard.score);
+            this.onGameOver();
         }
     }
 
@@ -193,5 +195,18 @@ export class Game {
 
     stop() {
         this.gameEvents.stop();
+    }
+
+    private onGameOver() {
+        this.gameEvents.onGameOver.next(this.scoreboard.score);
+        this.pause();
+    }
+
+    pause() {
+        this.isGamePaused = true;
+    }
+
+    resume() {
+        this.isGamePaused = false;
     }
 }
