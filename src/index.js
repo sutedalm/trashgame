@@ -14,12 +14,11 @@ window.handsfree.start();
 ReactDOM.render(
     <Router>
         <React.StrictMode>
-            <MainPage />
+            <Routes>
+                <Route exact path="/" element={<MainPage />} />
+                <Route exact path="/game" element={<GameEngineComponent />} />
+            </Routes>
         </React.StrictMode>
-        <Routes>
-            {/* <Route exact path="/" element={<MainPage />} /> */}
-            <Route exact path="/game" element={<GameEngineComponent />} />
-        </Routes>
     </Router>,
     document.getElementById("root")
 );
