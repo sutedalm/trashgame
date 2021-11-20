@@ -8,19 +8,13 @@ import { TrashItem } from "./Entities/trash-item";
 import { Scoreboard } from "./Entities/scoreboard";
 import socket, { MultiplayerController } from "./multiplayer";
 import { Player2 } from "./Entities/player2";
+import { GameEventController } from "./Events/gameEventController";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
     private entities: Entity[] = [];
     private tiles: Tile[] = [];
     private gui: Entity[] = [];
-
-    /* Background - temp */
-    private color = "rgba(255,255,255)";
-    private colorOpp = "rgb(0,0,0)";
-    private colorOppGray = "rgb(0,0,0)";
-    private colors = [255, 255, 255];
-    private shifts = [1, 1, 1];
 
     private lastUpdate: number | undefined;
 
@@ -35,6 +29,8 @@ export class Game {
     private serverId: string;
     private multiplayerController = new MultiplayerController();
 
+    public gameEvents: GameEventController;
+
     constructor(display: Display, serverId: string) {
         this.currentWidth = display.context.canvas.width;
         this.currentHeight = display.context.canvas.height;
@@ -43,6 +39,8 @@ export class Game {
         this.cameraCanvasHeight = display.cameraCanvasHeight;
 
         this.serverId = serverId;
+
+        this.gameEvents = new GameEventController();
 
         this.initAssets();
 
@@ -90,32 +88,6 @@ export class Game {
         for (let entity of this.entities) {
             entity.update(dt);
         }
-
-        // GUI Stuff does not (at least currently) need to be updated)
-
-        for (var i = 0; i < 3; i++) {
-            let color = this.colors[i];
-            let shift = this.shifts[i];
-
-            if (color + shift > 255 || color + shift < 0) {
-                shift = shift < 0 ? Math.random() * 2 + 1 : Math.random() * 2 - 2;
-            }
-
-            color += shift;
-            this.colors[i] = Math.floor(color);
-            this.shifts[i] = shift;
-        }
-        this.color = "rgb(" + this.colors[0] + "," + this.colors[1] + "," + this.colors[2] + ")";
-        this.colorOpp =
-            "rgb(" +
-            (255 - this.colors[0]) +
-            "," +
-            (255 - this.colors[1]) +
-            "," +
-            (255 - this.colors[2]) +
-            ")";
-        let minOppColor = 255 - Math.max(Math.max(this.colors[0], this.colors[1]), this.colors[2]);
-        this.colorOppGray = "rgb(" + minOppColor + "," + minOppColor + "," + minOppColor + ")";
 
         // multiplayer
         const requestBody = {
@@ -195,6 +167,7 @@ export class Game {
         this.scoreboard.lifes -= 1;
         if (this.scoreboard.lifes === 0) {
             //TODO game over
+            this.gameEvents.onGameOver.next(this.scoreboard.score);
         }
     }
 
@@ -216,5 +189,9 @@ export class Game {
             }
         }
         return cur;
+    }
+
+    stop() {
+        this.gameEvents.stop();
     }
 }

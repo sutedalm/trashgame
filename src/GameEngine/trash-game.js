@@ -115,6 +115,8 @@ export class TrashGame {
         window.removeEventListener("keydown", this.keyDown.bind(this));
         window.removeEventListener("keyup", this.keyUp.bind(this));
 
+        this.game.stop();
+
         delete this.controller;
         delete this.display;
         delete this.engine;
