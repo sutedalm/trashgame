@@ -1,0 +1,42 @@
+.headerContainer {
+    background-color: #ffa726;
+    /* padding: 0.1em; */
+    width: 100%;
+    display: flex;
+}
+
+.headerTeamName {
+    font-size: 2em;
+    font-weight: bolder;
+    font-family: "Comfortaa", cursive;
+    text-align: right;
+    /* padding-left: 5em; */
+    width: 50%;
+    padding: 0.4em;
+}
+
+.headerHome {
+    font-size: 2em;
+    color: white;
+    font-weight: bolder;
+    font-family: "Comfortaa", cursive;
+    text-align: left;
+    width: 50%;
+    padding: 0.4em;
+}
+
+.headerHome:link {
+    text-decoration: none;
+}
+
+.headerHome:visited {
+    text-decoration: none;
+}
+
+.headerHome:hover {
+    text-decoration: underline;
+}
+
+.headerHome:active {
+    text-decoration: underline;
+}

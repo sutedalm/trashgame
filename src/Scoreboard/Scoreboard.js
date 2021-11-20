@@ -1,63 +1,23 @@
+import Header from "../components/Header/Header";
 import { getDataFromDatabase } from "./serverapi";
-import { useMemo, useTable } from "react";
+import Table from "./Table";
 
 function Scoreboard() {
     getDataFromDatabase();
-    const data = useMemo(
-        () => [
-            {
-                col1: "Hello",
-                col2: "World",
-            },
-            {
-                col1: "react-table",
-                col2: "rocks",
-            },
-        ],
-        []
-    );
-
-    const columns = useMemo(
-        () => [
-            {
-                Header: "Column 1",
-                accessor: "col1", // accessor is the "key" in the data
-            },
-            {
-                Header: "Column 2",
-                accessor: "col2",
-            },
-        ],
-        []
-    );
-
-    const tableInstance = useTable({ columns, data });
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
-
+    let data = [
+        { fruit: "Apple", cost: 100 },
+        { fruit: "Orange", cost: 50 },
+        { fruit: "Banana", cost: 35 },
+        { fruit: "Mango", cost: 70 },
+        { fruit: "Pineapple", cost: 45 },
+        { fruit: "Papaya", cost: 40 },
+        { fruit: "Watermelon", cost: 35 },
+    ];
     return (
-        <table {...getTableProps()}>
-            <thead>
-                {headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map((column) => (
-                            <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-                        ))}
-                    </tr>
-                ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-                {rows.map((row) => {
-                    prepareRow(row);
-                    return (
-                        <tr {...row.getRowProps()}>
-                            {row.cells.map((cell) => {
-                                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-                            })}
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
+        <div>
+            <Header />
+            <Table data={data} />
+        </div>
     );
 }
 
