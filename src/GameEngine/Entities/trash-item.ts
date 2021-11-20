@@ -104,8 +104,6 @@ export class TrashItem implements Entity {
                 this.velocityY += dt * 0.003 * this.level * 0.5 * heightRatio;
             }
 
-            console.log(this.velocityY);
-
             this.y += this.velocityY; //TODO:
 
             // If the user didn't squat before end of the game
