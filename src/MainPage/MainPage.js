@@ -1,7 +1,6 @@
 import "./MainPage.css";
 import { Link } from "react-router-dom";
 import FlyingApple from "./flyingIcons/FlyingApple";
-import FlyingCan from "./flyingIcons/FlyingCan";
 import CopyClipboardButton from "../components/CopyClipboardButton/CopyClipboardButton";
 
 function MainPage() {
@@ -10,10 +9,6 @@ function MainPage() {
             <div className="flier">
                 <FlyingApple />
             </div>
-            {/* <div class="flier">
-                <FlyingCan />
-            </div> */}
-
             <div className="mainPageHeader">
                 <span className="mainPageHeaderName">Team Fitlez</span>
             </div>
@@ -30,12 +25,15 @@ function MainPage() {
                     <h5 className="leftBodySubHeader">Try it out, now!</h5>
                     <div className="rightBodyButtons">
                         <CopyClipboardButton />
-                        <button class="button">
+                        <button className="button">
                             <span>JOIN A GAME</span>
                         </button>
                     </div>
                 </div>
             </div>
+            <Link to="/scoreboard" className="button">
+                <span>SCOREBOARD</span>
+            </Link>
         </div>
     );
 }
