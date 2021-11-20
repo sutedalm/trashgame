@@ -1,6 +1,6 @@
+import "./index.scss";
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.scss";
 import "handsfree/build/lib/assets/handsfree.css";
 import Handsfree from "handsfree";
 import App from "./App";

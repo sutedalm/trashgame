@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function Header() {
     return (
         <div className="headerContainer">
+            <span className="headerTeamName">Team Fitlez</span>
             <div className="headerNav">
                 <Link to="/" className="headerHome">
                     <span>Home</span>
@@ -12,7 +13,8 @@ function Header() {
                     <span>Scoreboard</span>
                 </Link>
             </div>
-            <span className="headerTeamName">Team Fitlez</span>
+
+            {/* <img className="headerlogo" src="../../images/undraw_mindfulness_scgo.png" /> */}
         </div>
     );
 }

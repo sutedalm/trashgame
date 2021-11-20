@@ -1,27 +1,33 @@
 .headerContainer {
+    font-family: "Times New Roman", Times, serif !important;
     background-color: #ffa726;
-    /* padding: 0.1em; */
     width: 100%;
     display: flex;
+    overflow: hidden;
+    line-height: normal;
+    align-items: center;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.headerNav {
+    padding-right: 1em;
+    font-size: 1.2em;
+    width: 100%;
+    text-align: right;
 }
 
 .headerTeamName {
-    font-size: 2em;
+    font-size: 1.5em;
+
     font-weight: bolder;
-    font-family: "Comfortaa", cursive;
-    text-align: right;
-    /* padding-left: 5em; */
-    width: 50%;
-    padding: 0.4em;
+    text-align: left;
+    width: 100%;
+    padding: 0.5em;
 }
 
 .headerHome {
-    font-size: 2em;
     color: white;
-    font-weight: bolder;
-    font-family: "Comfortaa", cursive;
-    text-align: left;
-    width: 50%;
+    font-weight: normal;
     padding: 0.4em;
 }
 
@@ -39,7 +45,4 @@
 
 .headerHome:active {
     text-decoration: underline;
-}
-
-.headerNav {
 }
