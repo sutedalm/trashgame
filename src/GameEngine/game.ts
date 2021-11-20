@@ -8,19 +8,14 @@ import { TrashItem } from "./Entities/trash-item";
 import { Scoreboard } from "./Entities/scoreboard";
 import socket, { MultiplayerController } from "./multiplayer";
 import { Player2 } from "./Entities/player2";
+import { GameEventController } from "./Events/gameEventController";
+import { getPlayerPostionData } from "./handsfreeController";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
     private entities: Entity[] = [];
     private tiles: Tile[] = [];
     private gui: Entity[] = [];
-
-    /* Background - temp */
-    private color = "rgba(255,255,255)";
-    private colorOpp = "rgb(0,0,0)";
-    private colorOppGray = "rgb(0,0,0)";
-    private colors = [255, 255, 255];
-    private shifts = [1, 1, 1];
 
     private lastUpdate: number | undefined;
 
@@ -33,7 +28,11 @@ export class Game {
     public cameraCanvasHeight: number;
 
     private serverId: string;
+    public isGamePaused: boolean = false;
+    public isGameOver: boolean = false;
     private multiplayerController = new MultiplayerController();
+
+    public gameEvents: GameEventController;
 
     constructor(display: Display, serverId: string) {
         this.currentWidth = display.context.canvas.width;
@@ -44,9 +43,11 @@ export class Game {
 
         this.serverId = serverId;
 
+        this.gameEvents = new GameEventController();
+
         this.initAssets();
 
-        if(this.serverId){
+        if (this.serverId) {
             this.addEntity(new Player2(this, this.multiplayerController));
         }
     }
@@ -65,9 +66,9 @@ export class Game {
         this.tiles = [];
 
         // Init the Tiles for the 3 zones
-        this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#00FFFF25", 0));
-        this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#FF00FF25", 1));
-        this.tiles.push(new Tile(width * 0.6666, 0, width * 0.3333, height, "#ff950025", 2));
+        this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#2727d925", 0));
+        this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#d9b12b25", 1));
+        this.tiles.push(new Tile(width * 0.6666, 0, width * 0.3333, height, "#de7b2625", 2));
 
         // Init all the two lines delimiting the 3 zones
         this.gui.push(new Rectangle(width * 0.3333, 0, lineWidth, height, "#555555"));
@@ -86,45 +87,20 @@ export class Game {
         //Update the player
         this.player.update(dt);
 
-        // Update all the entities
-        for (let entity of this.entities) {
-            entity.update(dt);
-        }
-
-        // GUI Stuff does not (at least currently) need to be updated)
-
-        for (var i = 0; i < 3; i++) {
-            let color = this.colors[i];
-            let shift = this.shifts[i];
-
-            if (color + shift > 255 || color + shift < 0) {
-                shift = shift < 0 ? Math.random() * 2 + 1 : Math.random() * 2 - 2;
+        if (!this.isGamePaused) {
+            // Update all the entities
+            for (let entity of this.entities) {
+                entity.update(dt);
             }
-
-            color += shift;
-            this.colors[i] = Math.floor(color);
-            this.shifts[i] = shift;
         }
-        this.color = "rgb(" + this.colors[0] + "," + this.colors[1] + "," + this.colors[2] + ")";
-        this.colorOpp =
-            "rgb(" +
-            (255 - this.colors[0]) +
-            "," +
-            (255 - this.colors[1]) +
-            "," +
-            (255 - this.colors[2]) +
-            ")";
-        let minOppColor = 255 - Math.max(Math.max(this.colors[0], this.colors[1]), this.colors[2]);
-        this.colorOppGray = "rgb(" + minOppColor + "," + minOppColor + "," + minOppColor + ")";
 
         // multiplayer
+        const playerPositionData = getPlayerPostionData();
         const requestBody = {
-            player: {
-                x: this.player.x,
-                y: this.player.y,
-            }
-        }
-        socket.emit("game update", this.serverId,  requestBody);
+            player: playerPositionData,
+        };
+        // console.log("requestBody", requestBody);
+        socket.emit("game update", this.serverId, requestBody);
     }
 
     render(display: Display) {
@@ -189,12 +165,15 @@ export class Game {
 
     addPoints(p: number) {
         this.scoreboard.score += p;
+        if (p !== 0) {
+            this.gameEvents.onScorePoint.next(this.scoreboard.score);
+        }
     }
 
     subtractLife() {
         this.scoreboard.lifes -= 1;
         if (this.scoreboard.lifes === 0) {
-            //TODO game over
+            this.onGameOver();
         }
     }
 
@@ -216,5 +195,23 @@ export class Game {
             }
         }
         return cur;
+    }
+
+    stop() {
+        this.gameEvents.stop();
+    }
+
+    private onGameOver() {
+        this.isGameOver = true;
+        this.gameEvents.onGameOver.next(this.scoreboard.score);
+        this.pause();
+    }
+
+    pause() {
+        this.isGamePaused = true;
+    }
+
+    resume() {
+        this.isGamePaused = false;
     }
 }

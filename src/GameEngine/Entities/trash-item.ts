@@ -27,7 +27,7 @@ export class TrashItem implements Entity {
         return this.level * 3;
     }
     private velocityY = this.startVelocity;
-    private level = 10; // 1 easiest - 10 hardest
+    private level = 1; // 1 easiest - 10 hardest
 
     // Either tile 1 2 or 3
     private selectedTile = 2;
@@ -111,7 +111,9 @@ export class TrashItem implements Entity {
                 this.game.subtractLife();
                 this.active = false;
                 this.game.removeEntity(this.id);
-                this.game.addEntity(TrashItem.createRandom(this.game));
+                if (!this.game.isGameOver) {
+                    this.game.addEntity(TrashItem.createRandom(this.game));
+                }
             }
         }
     }

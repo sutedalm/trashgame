@@ -1,11 +1,15 @@
 import "./GameEngineComponent.scss";
-import { Component } from "react";
+import React, { Component } from "react";
 import { TrashGame } from "./trash-game";
+import { GameOverPopUp } from "../components/GameOverPopUp/GameOverPopUp";
+import { Scoreboard } from "../components/Scoreboard/Scoreboard";
 
 interface IProps {}
 
 interface IState {
     bottomHeight: string;
+    gameOverScore: number | undefined;
+    score: number;
 }
 
 export class GameEngineComponent extends Component<IProps, IState> {
@@ -16,6 +20,8 @@ export class GameEngineComponent extends Component<IProps, IState> {
         super(props, context);
         this.state = {
             bottomHeight: "60px",
+            gameOverScore: undefined,
+            score: 0,
         };
         this.serverId = props.serverId;
     }
@@ -34,6 +40,10 @@ export class GameEngineComponent extends Component<IProps, IState> {
                         </div>
                     </div>
                 </div>
+                {this.state.gameOverScore !== undefined && (
+                    <GameOverPopUp score={this.state.gameOverScore} />
+                )}
+                <Scoreboard score={this.state.score} />
             </div>
         );
     }
@@ -41,6 +51,18 @@ export class GameEngineComponent extends Component<IProps, IState> {
     componentDidMount() {
         this.game = new TrashGame(this.serverId);
         (window as any).handsfree.unpause();
+
+        let gameEvents = this.game.game.gameEvents;
+        gameEvents.onGameOver.subscribe((score) => {
+            this.setState({
+                gameOverScore: score,
+            });
+        });
+        gameEvents.onScorePoint.subscribe((score) => {
+            this.setState({
+                score: score,
+            });
+        });
 
         window.addEventListener("resize", this.updateDimensions.bind(this));
         this.updateDimensions();

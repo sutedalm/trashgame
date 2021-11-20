@@ -16,7 +16,7 @@ export class Scoreboard implements Entity {
     }
 
     render(display: Display): void {
-        display.drawText(25, 40, "score: " + this.score, "30px Arial", "black", false);
+        // display.drawText(25, 40, "score: " + this.score, "30px Arial", "black", false);
         for (let i = 0; i < this.lifes; i++) {
             display.drawImage(25 + 42 * i, 80, 32, 32, "heart.png");
         }
