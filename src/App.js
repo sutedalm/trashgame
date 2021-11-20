@@ -15,7 +15,12 @@ function App() {
                     path="/"
                     element={<MainPage serverId={serverId} setServerId={setServerId} />}
                 />
-                <Route exact path="/game" element={<GameEngineComponent serverId={serverId} />} />
+                <Route exact path="/game" element={<GameEngineComponent />} />
+                <Route
+                    exact
+                    path="/multiplayer"
+                    element={<GameEngineComponent serverId={serverId} />}
+                />
             </Routes>
         </Router>
     );

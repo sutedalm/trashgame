@@ -4,8 +4,18 @@ import FlyingApple from "./flyingIcons/FlyingApple";
 import FlyingCan from "./flyingIcons/FlyingCan";
 import CopyClipboardButton from "../components/CopyClipboardButton/CopyClipboardButton";
 import JoinGameForm from "../components/JoinGameForm/JoinGameForm";
+import { useNavigate } from "react-router-dom";
+import socket from "./../GameEngine/multiplayer";
 
 function MainPage({ serverId, setServerId }) {
+    const navigate = useNavigate();
+
+    socket.on("start game", function (serverId) {
+        console.log("start game", serverId);
+        setServerId(serverId);
+
+        navigate("/multiplayer");
+    });
     return (
         <div className="mainPageContainer">
             <div className="flier">
