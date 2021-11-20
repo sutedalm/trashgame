@@ -5,6 +5,7 @@ import { Display } from "./display";
 import { Rectangle } from "./Entities/rectangle";
 import { Tile } from "./Entities/tile";
 import { TrashItem } from "./Entities/trash-item";
+import { Scoreboard } from "./Entities/scoreboard";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -22,9 +23,9 @@ export class Game {
     private lastUpdate = 0;
 
     private player = new Player(0, 0, this);
-
-    private currentWidth = 0;
-    private currentHeight = 0;
+    private scoreboard = new Scoreboard(this);
+    public currentWidth = 0;
+    public currentHeight = 0;
 
     public cameraCanvasWidth: number;
     public cameraCanvasHeight: number;
@@ -53,13 +54,14 @@ export class Game {
         this.tiles = [];
 
         // Init the Tiles for the 3 zones
-        this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#00FFFF25"));
-        this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#FF00FF25"));
-        this.tiles.push(new Tile(width * 0.6666, 0, width * 0.3333, height, "#ff950025"));
+        this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#00FFFF25", 0));
+        this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#FF00FF25", 1));
+        this.tiles.push(new Tile(width * 0.6666, 0, width * 0.3333, height, "#ff950025", 2));
 
         // Init all the two lines delimiting the 3 zones
         this.gui.push(new Rectangle(width * 0.3333, 0, lineWidth, height, "#555555"));
         this.gui.push(new Rectangle(width * 0.6666, 0, lineWidth, height, "#555555"));
+        this.gui.push(this.scoreboard);
     }
 
     update(time_stamp: number) {
@@ -108,12 +110,12 @@ export class Game {
 
         this.player.render(display);
 
-        for (let entity of this.entities) {
-            entity.render(display);
-        }
-
         for (let tile of this.tiles) {
             tile.render(display);
+        }
+
+        for (let entity of this.entities) {
+            entity.render(display);
         }
 
         for (let gui of this.gui) {
@@ -161,5 +163,36 @@ export class Game {
 
     addEntity(e: Entity) {
         this.entities.push(e);
+    }
+
+    addPoints(p: number) {
+        this.scoreboard.score += p;
+    }
+
+    subtractLife() {
+        this.scoreboard.lifes -= 1;
+        if (this.scoreboard.lifes === 0) {
+            //TODO game over
+        }
+    }
+
+    removeEntity(uuid: string) {
+        let i = this.entities.findIndex((value) => value.id === uuid);
+        if (i > -1) {
+            this.entities.splice(i, 1);
+        } else {
+            let i = this.gui.findIndex((value) => value.id === uuid);
+            if (i > -1) this.gui.splice(i, 1);
+        }
+    }
+
+    getActiveTrashIcon() {
+        let cur = null;
+        for (let e of this.entities) {
+            if (e instanceof TrashItem) {
+                if (e.active && (cur == null || e.y > cur.y)) cur = e;
+            }
+        }
+        return cur;
     }
 }

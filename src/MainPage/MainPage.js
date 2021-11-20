@@ -2,8 +2,19 @@ import "./MainPage.css";
 import { Link } from "react-router-dom";
 import FlyingApple from "./flyingIcons/FlyingApple";
 import CopyClipboardButton from "../components/CopyClipboardButton/CopyClipboardButton";
+import JoinGameForm from "../components/JoinGameForm/JoinGameForm";
+import { useNavigate } from "react-router-dom";
+import socket from "./../GameEngine/multiplayer";
 
-function MainPage() {
+function MainPage({ serverId, setServerId }) {
+    const navigate = useNavigate();
+
+    socket.on("start game", function (serverId) {
+        console.log("start game", serverId);
+        setServerId(serverId);
+
+        navigate("/multiplayer");
+    });
     return (
         <div className="mainPageContainer">
             <div className="flier">
@@ -22,12 +33,10 @@ function MainPage() {
                 </div>
                 <div class="rightBody">
                     <h2 className="leftBodyHeader">Multiplayer</h2>
-                    <h5 className="leftBodySubHeader">Try it out, now!</h5>
+                    <h5 className="leftBodySubHeader">Send the server code to a friend!</h5>
                     <div className="rightBodyButtons">
                         <CopyClipboardButton />
-                        <button className="button">
-                            <span>JOIN A GAME</span>
-                        </button>
+                        <JoinGameForm serverId={serverId} setServerId={setServerId} />
                     </div>
                 </div>
             </div>
