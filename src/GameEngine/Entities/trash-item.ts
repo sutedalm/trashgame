@@ -4,11 +4,11 @@ import { v4 as uuid } from "uuid";
 import { Game } from "../game";
 
 export class TrashItem implements Entity {
-    private static categories = ["bio", "gelbersack", "restmuell"];
+    private static categories = ["restmuell", "gelbersack", "bio"];
     private static names = [
-        ["apple", "drip", "green-tea", "orange", "tea"],
-        ["can", "food-container", "milk", "shopping-bag", "takeaway-cups", "toothpaste"],
         ["cigarette", "diapers", "gallery", "light-bulb", "pen", "poop", "porcelain"],
+        ["can", "food-container", "milk", "shopping-bag", "takeaway-cups", "toothpaste"],
+        ["apple", "drip", "green-tea", "orange", "tea"],
     ];
 
     x = 0;

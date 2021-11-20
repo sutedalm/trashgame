@@ -54,9 +54,9 @@ export class Game {
         this.tiles = [];
 
         // Init the Tiles for the 3 zones
-        this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#00FFFF25"));
-        this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#FF00FF25"));
-        this.tiles.push(new Tile(width * 0.6666, 0, width * 0.3333, height, "#ff950025"));
+        this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#00FFFF25", 0));
+        this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#FF00FF25", 1));
+        this.tiles.push(new Tile(width * 0.6666, 0, width * 0.3333, height, "#ff950025", 2));
 
         // Init all the two lines delimiting the 3 zones
         this.gui.push(new Rectangle(width * 0.3333, 0, lineWidth, height, "#555555"));
@@ -184,5 +184,15 @@ export class Game {
             let i = this.gui.findIndex((value) => value.id === uuid);
             if (i > -1) this.gui.splice(i, 1);
         }
+    }
+
+    getActiveTrashIcon() {
+        let cur = null;
+        for (let e of this.entities) {
+            if (e instanceof TrashItem) {
+                if (e.active && (cur == null || e.y > cur.y)) cur = e;
+            }
+        }
+        return cur;
     }
 }
