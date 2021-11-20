@@ -4,14 +4,14 @@ import { Game } from "./game";
 import { Engine } from "./engine";
 
 export class TrashGame {
-    constructor() {
+    constructor(serverId) {
         /* Controller handles user input */
         this.controller = new Controller();
         /* Display handles window resizing */
         this.display = new Display(document.querySelector("canvas"));
 
         /* Display handles the game logic */
-        this.game = new Game(this.display);
+        this.game = new Game(this.display, serverId);
 
         let fps = 30;
         /* Engine combines the controller, display and game */

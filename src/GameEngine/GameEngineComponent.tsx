@@ -10,12 +10,14 @@ interface IState {
 
 export class GameEngineComponent extends Component<IProps, IState> {
     game: TrashGame | undefined;
+    serverId: string | undefined;
 
     constructor(props: any, context: any) {
         super(props, context);
         this.state = {
             bottomHeight: "60px",
         };
+        this.serverId = props.serverId;
     }
 
     render() {
@@ -37,7 +39,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        this.game = new TrashGame();
+        this.game = new TrashGame(this.serverId);
         (window as any).handsfree.unpause();
 
         window.addEventListener("resize", this.updateDimensions.bind(this));

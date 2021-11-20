@@ -13,10 +13,32 @@ export function useMultiplayerId() {
 
   socket.on("connect", () => { setId(socket.id) });
 
-
   return id
 }
 
+export class MultiplayerController {
+  private multiplayerData: {
+    player: {
+      x: number,
+      y: number,
+    }
+  }
+  constructor() {
+    // this format has to be same as in game.ts (requestBody)
+    this.multiplayerData = {
+      player: {
+        x: 0,
+        y: 0,
+      }
+    };
+
+    socket.on("game update", (body) => {this.multiplayerData = body;});
+  }
+
+  public getMultiplayerData = () => {
+    return this.multiplayerData;
+  }
+}
 
 
 export default socket;
