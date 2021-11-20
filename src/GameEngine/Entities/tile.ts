@@ -6,7 +6,11 @@ import { Rectangle } from "./rectangle";
  */
 export class Tile extends Rectangle {
     containsPlayer = false;
-
+    num: number;
+    constructor(x: number, y: number, width: number, height: number, color: string, num: number) {
+        super(x, y, width, height, color);
+        this.num = num;
+    }
     render(display: Display) {
         // Only display the rectangle if the player is on it
         if (this.containsPlayer) {
