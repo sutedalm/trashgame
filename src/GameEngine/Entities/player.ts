@@ -29,7 +29,7 @@ export class Player implements Entity {
             (relPos * absLength - offset);
         const handsfreeX = (window as any).handsfree?.data?.pose?.poseLandmarks?.[0]?.x;
         const handsfreeY = (window as any).handsfree?.data?.pose?.poseLandmarks?.[0]?.y;
-        this.x = convertRelativePos(handsfreeX, this.game.cameraCanvasWidth, this.width/2) || this.x
+        this.x = convertRelativePos(1 - handsfreeX, this.game.cameraCanvasWidth, this.width/2) || this.x
         this.y = convertRelativePos(handsfreeY, this.game.cameraCanvasHeight, this.height/2) || this.y
 
         // Get the current tile

@@ -18,6 +18,7 @@ export class Display {
     constructor(canvas: any) {
         this.buffer = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
         this.context = canvas.getContext("2d");
+        this.context.setTransform(1,0,0,-1,0,this.context.canvas.height);
 
         this.cameraCanvas = document.querySelector(
             ".handsfree-canvas-video"
@@ -43,9 +44,10 @@ export class Display {
 
     clear() {
         this.buffer.clearRect(0, 0, this.buffer.canvas.width, this.buffer.canvas.height);
-
+        this.buffer.setTransform(-1,0,0,1, this.context.canvas.width, 0);
         this.buffer.drawImage(this.cameraCanvas, 0, 0);
         this.buffer.drawImage(this.camDebugCanvas, 0, 0);
+        this.buffer.setTransform(1,0,0,1, 0, 0);
     }
 
     drawRectangle(x: number, y: number, width: number, height: number, color: string) {
