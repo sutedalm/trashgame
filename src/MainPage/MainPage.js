@@ -1,20 +1,25 @@
 import "./MainPage.css";
 import { Link } from "react-router-dom";
 import FlyingApple from "./flyingIcons/FlyingApple";
-import FlyingCan from "./flyingIcons/FlyingCan";
 import CopyClipboardButton from "../components/CopyClipboardButton/CopyClipboardButton";
 import JoinGameForm from "../components/JoinGameForm/JoinGameForm";
+import { useNavigate } from "react-router-dom";
+import socket from "./../GameEngine/multiplayer";
 
 function MainPage({ serverId, setServerId }) {
+    const navigate = useNavigate();
+
+    socket.on("start game", function (serverId) {
+        console.log("start game", serverId);
+        setServerId(serverId);
+
+        navigate("/multiplayer");
+    });
     return (
         <div className="mainPageContainer">
             <div className="flier">
                 <FlyingApple />
             </div>
-            {/* <div class="flier">
-                <FlyingCan />
-            </div> */}
-
             <div className="mainPageHeader">
                 <span className="mainPageHeaderName">Team Fitlez</span>
             </div>
@@ -35,6 +40,9 @@ function MainPage({ serverId, setServerId }) {
                     </div>
                 </div>
             </div>
+            <Link to="/scoreboard" className="button">
+                <span>SCOREBOARD</span>
+            </Link>
         </div>
     );
 }
