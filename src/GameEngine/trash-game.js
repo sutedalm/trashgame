@@ -84,6 +84,8 @@ export class TrashGame {
     }
 
     triggerController(keyCode, status) {
+        if (this.controller === undefined) return;
+
         switch (keyCode) {
             case 90:
                 this.controller.up.trigger(status);

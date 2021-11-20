@@ -46,7 +46,7 @@ export class Game {
 
         this.initAssets();
 
-        if(this.serverId){
+        if (this.serverId) {
             this.addEntity(new Player2(this, this.multiplayerController));
         }
     }
@@ -65,9 +65,9 @@ export class Game {
         this.tiles = [];
 
         // Init the Tiles for the 3 zones
-        this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#00FFFF25", 0));
-        this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#FF00FF25", 1));
-        this.tiles.push(new Tile(width * 0.6666, 0, width * 0.3333, height, "#ff950025", 2));
+        this.tiles.push(new Tile(0, 0, width * 0.3333, height, "#2727d925", 0));
+        this.tiles.push(new Tile(width * 0.3333, 0, width * 0.3333, height, "#d9b12b25", 1));
+        this.tiles.push(new Tile(width * 0.6666, 0, width * 0.3333, height, "#de7b2625", 2));
 
         // Init all the two lines delimiting the 3 zones
         this.gui.push(new Rectangle(width * 0.3333, 0, lineWidth, height, "#555555"));
@@ -122,9 +122,9 @@ export class Game {
             player: {
                 x: this.player.x,
                 y: this.player.y,
-            }
-        }
-        socket.emit("game update", this.serverId,  requestBody);
+            },
+        };
+        socket.emit("game update", this.serverId, requestBody);
     }
 
     render(display: Display) {
