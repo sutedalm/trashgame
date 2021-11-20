@@ -2,11 +2,13 @@ import "./MainPage.css";
 import { Link } from "react-router-dom";
 import FlyingApple from "./flyingIcons/FlyingApple";
 import FlyingCan from "./flyingIcons/FlyingCan";
+import CopyClipboardButton from "../components/CopyClipboardButton/CopyClipboardButton";
+import JoinGameForm from "../components/JoinGameForm/JoinGameForm";
 
-function MainPage() {
+function MainPage({ serverId, setServerId }) {
     return (
         <div className="mainPageContainer">
-            <div class="flier">
+            <div className="flier">
                 <FlyingApple />
             </div>
             {/* <div class="flier">
@@ -14,26 +16,22 @@ function MainPage() {
             </div> */}
 
             <div className="mainPageHeader">
-                <text className="mainPageHeaderName">Team Fitlez</text>
+                <span className="mainPageHeaderName">Team Fitlez</span>
             </div>
-            <div class="mainPageBody">
-                <div class="leftBody">
+            <div className="mainPageBody">
+                <div className="leftBody">
                     <h2 className="leftBodyHeader">Singleplayer</h2>
                     <h5 className="leftBodySubHeader">Try it out, now!</h5>
-                    <Link to="/game" class="button">
+                    <Link to="/game" className="button">
                         <span>START A GAME</span>
                     </Link>
                 </div>
                 <div class="rightBody">
                     <h2 className="leftBodyHeader">Multiplayer</h2>
-                    <h5 className="leftBodySubHeader">Try it out, now!</h5>
+                    <h5 className="leftBodySubHeader">Send the server code to a friend!</h5>
                     <div className="rightBodyButtons">
-                        <button class="button">
-                            <span>CREATE A GAME</span>
-                        </button>
-                        <button class="button">
-                            <span>JOIN A GAME</span>
-                        </button>
+                        <CopyClipboardButton />
+                        <JoinGameForm serverId={serverId} setServerId={setServerId} />
                     </div>
                 </div>
             </div>
