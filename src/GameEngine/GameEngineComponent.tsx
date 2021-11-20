@@ -24,5 +24,6 @@ export class GameEngineComponent extends Component {
 
     componentDidMount() {
         this.game = new TrashGame();
+        (window as any).handsfree.unpause();
     }
 }

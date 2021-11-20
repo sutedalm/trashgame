@@ -1,29 +1,37 @@
 .mainPageContainer {
     background-image: url(../images/undraw_yoga_248n.png);
     background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 40em;
+    /* padding: 1m; */
+    /* height: 100%; */
 }
 
 .mainPageHeader {
     background-color: #ffa726;
-    padding: 0.5em;
+    padding: 1em;
 }
 
 .mainPageHeaderName {
-    font-size: 1em;
+    font-size: 2em;
     font-weight: bolder;
     font-family: "Comfortaa", cursive;
+    text-align: center;
 }
 
 .mainPageBody {
+    /* height: 89.8vh; */
     display: flex;
     font-family: "Comfortaa", cursive;
     width: 100%;
+    height: 100%;
 }
 
 .leftBody {
     background-color: rgba(0, 0, 0, 0.1);
-    width: 50%;
-    padding: 2em;
+    width: 49%;
+    padding-right: 2em;
     text-align: right;
     font-size: large;
     font-family: "Comfortaa", cursive;
@@ -72,8 +80,8 @@
 }
 
 .rightBody {
-    width: 50%;
-    padding: 2em;
+    width: 49%;
+    padding-left: 2em;
     text-align: left;
     font-size: large;
     font-family: "Comfortaa", cursive;
