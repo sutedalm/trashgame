@@ -5,6 +5,7 @@ import CopyClipboardButton from "../components/CopyClipboardButton/CopyClipboard
 import JoinGameForm from "../components/JoinGameForm/JoinGameForm";
 import { useNavigate } from "react-router-dom";
 import socket from "./../GameEngine/multiplayer";
+import Header from "../components/Header/Header";
 
 function MainPage({ serverId, setServerId }) {
     const navigate = useNavigate();
@@ -20,9 +21,7 @@ function MainPage({ serverId, setServerId }) {
             <div className="flier">
                 <FlyingApple />
             </div>
-            <div className="mainPageHeader">
-                <span className="mainPageHeaderName">Team Fitlez</span>
-            </div>
+            <Header />
             <div className="mainPageBody">
                 <div className="leftBody">
                     <h2 className="leftBodyHeader">Singleplayer</h2>
