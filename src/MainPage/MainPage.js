@@ -26,6 +26,11 @@ function MainPage({ serverId, setServerId }) {
                 <div className="leftBody">
                     <h2 className="leftBodyHeader">Singleplayer</h2>
                     <h5 className="leftBodySubHeader">Try it out, now!</h5>
+                    <input
+                        className="leftBodyNameInput"
+                        type="text"
+                        placeholder="ENTER YOUR NAME"
+                    ></input>
                     <Link to="/game" className="button">
                         <span>START A GAME</span>
                     </Link>

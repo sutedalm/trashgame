@@ -16,6 +16,15 @@
     height: 100%;
 }
 
+.leftBodyNameInput {
+    /* height: 100%; */
+    border-radius: 5px;
+    font-size: 13px;
+    height: 1.8em;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    border-radius: 5px;
+}
+
 .leftBody {
     background-color: rgba(0, 0, 0, 0.1);
     width: 49%;
@@ -26,6 +35,7 @@
 }
 
 .button {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
     background-color: #ffa726;
     font-size: medium;
     font-weight: bolder;
