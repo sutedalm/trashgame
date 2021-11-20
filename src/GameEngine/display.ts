@@ -32,7 +32,9 @@ export class Display {
         ) as unknown as CanvasImageSource;
         // @ts-ignore
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
-        this.imageLoader = new ImageLoader(TrashItem.getImagesToLoad());
+        let toLoad = TrashItem.getImagesToLoad();
+        toLoad.push("heart.png");
+        this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;
         this.cameraCanvasHeight = this.camDebugCanvas.height as number;
@@ -70,6 +72,13 @@ export class Display {
         } else {
             this.drawRectangle(x, y, width, height, "red");
         }
+    }
+
+    drawText(x: number, y: number, text: string, font: string, color: string, center: boolean) {
+        this.buffer.font = font;
+        this.buffer.fillStyle = color;
+        this.buffer.textAlign = center ? "center" : "left";
+        this.buffer.fillText(text, x, y);
     }
 
     render() {

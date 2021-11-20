@@ -5,6 +5,7 @@ import { Display } from "./display";
 import { Rectangle } from "./Entities/rectangle";
 import { Tile } from "./Entities/tile";
 import { TrashItem } from "./Entities/trash-item";
+import { Scoreboard } from "./Entities/scoreboard";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -22,7 +23,7 @@ export class Game {
     private lastUpdate = 0;
 
     private player = new Player(0, 0, this);
-
+    private scoreboard = new Scoreboard(this);
     private currentWidth = 0;
     private currentHeight = 0;
 
@@ -60,6 +61,7 @@ export class Game {
         // Init all the two lines delimiting the 3 zones
         this.gui.push(new Rectangle(width * 0.3333, 0, lineWidth, height, "#555555"));
         this.gui.push(new Rectangle(width * 0.6666, 0, lineWidth, height, "#555555"));
+        this.gui.push(this.scoreboard);
     }
 
     update(time_stamp: number) {
@@ -108,12 +110,12 @@ export class Game {
 
         this.player.render(display);
 
-        for (let entity of this.entities) {
-            entity.render(display);
-        }
-
         for (let tile of this.tiles) {
             tile.render(display);
+        }
+
+        for (let entity of this.entities) {
+            entity.render(display);
         }
 
         for (let gui of this.gui) {
@@ -161,5 +163,26 @@ export class Game {
 
     addEntity(e: Entity) {
         this.entities.push(e);
+    }
+
+    addPoints(p: number) {
+        this.scoreboard.score += p;
+    }
+
+    subtractLife() {
+        this.scoreboard.lifes -= 1;
+        if (this.scoreboard.lifes === 0) {
+            //TODO game over
+        }
+    }
+
+    removeEntity(uuid: string) {
+        let i = this.entities.findIndex((value) => value.id === uuid);
+        if (i > -1) {
+            this.entities.splice(i, 1);
+        } else {
+            let i = this.gui.findIndex((value) => value.id === uuid);
+            if (i > -1) this.gui.splice(i, 1);
+        }
     }
 }
