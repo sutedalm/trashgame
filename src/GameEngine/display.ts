@@ -1,3 +1,5 @@
+import {ImageLoader} from "./imageloader";
+
 export class Display {
     buffer: CanvasRenderingContext2D;
     context: CanvasRenderingContext2D;
@@ -7,6 +9,8 @@ export class Display {
 
     private camDebugCanvas: CanvasImageSource;
     private camDebugCanvasContext: CanvasRenderingContext2D;
+
+    private imageLoader: ImageLoader;
 
     constructor(canvas: any) {
         this.buffer = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
@@ -23,6 +27,7 @@ export class Display {
         ) as unknown as CanvasImageSource;
         // @ts-ignore
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
+        this.imageLoader = new ImageLoader(["bio/apple.png"])
     }
 
     fill(color: string) {
@@ -42,8 +47,12 @@ export class Display {
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
     }
 
-    drawImage(x: number, y: number, width: number, height: number, imageUrl: string) {
-        //TODO
+    drawImage(x: number, y: number, width: number, height: number, name: string) {
+        if(this.imageLoader.isLoaded) {
+            this.buffer.drawImage(this.imageLoader.getImage(name), Math.floor(x), Math.floor(y), width, height)
+        } else {
+            this.drawRectangle(x, y, width, height, "red")
+        }
     }
 
     render() {
