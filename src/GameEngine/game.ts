@@ -28,6 +28,7 @@ export class Game {
 
     private serverId: string;
     public isGamePaused: boolean = false;
+    public isGameOver: boolean = false;
     private multiplayerController = new MultiplayerController();
 
     public gameEvents: GameEventController;
@@ -198,6 +199,7 @@ export class Game {
     }
 
     private onGameOver() {
+        this.isGameOver = true;
         this.gameEvents.onGameOver.next(this.scoreboard.score);
         this.pause();
     }

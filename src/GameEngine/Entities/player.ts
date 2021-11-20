@@ -61,7 +61,9 @@ export class Player implements Entity {
                 this.game.subtractLife();
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
-                this.game.addEntity(TrashItem.createRandom(this.game));
+                if (!this.game.isGameOver) {
+                    this.game.addEntity(TrashItem.createRandom(this.game));
+                }
             }
         } else if (handsfreeY < 0.4 && this.isInExercise) {
             this.isInExercise = false;
