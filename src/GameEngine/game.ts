@@ -20,7 +20,7 @@ export class Game {
     private colors = [255, 255, 255];
     private shifts = [1, 1, 1];
 
-    private lastUpdate = 0;
+    private lastUpdate: number | undefined;
 
     private player = new Player(0, 0, this);
     private scoreboard = new Scoreboard(this);
@@ -65,6 +65,8 @@ export class Game {
     }
 
     update(time_stamp: number) {
+        if (!this.lastUpdate) this.lastUpdate = time_stamp;
+
         let dt = time_stamp - this.lastUpdate;
         if (dt === 0) return;
 

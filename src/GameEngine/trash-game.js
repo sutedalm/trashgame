@@ -61,11 +61,15 @@ export class TrashGame {
         height = document.documentElement.clientHeight;
         width = document.documentElement.clientWidth;
 
-        // Update the correct values on the display class
-        this.display.resize(width, height);
+        if (this.display) {
+            // Update the correct values on the display class
+            this.display.resize(width, height);
+        }
 
-        // Finally tell the game that a resize happened
-        this.game.resizeEvent(this.display);
+        if (this.game) {
+            // Finally tell the game that a resize happened
+            this.game.resizeEvent(this.display);
+        }
     }
 
     keyDown(event) {
@@ -102,5 +106,16 @@ export class TrashGame {
             default:
                 break;
         }
+    }
+
+    stop() {
+        window.removeEventListener("resize", this.resize.bind(this));
+        window.removeEventListener("keydown", this.keyDown.bind(this));
+        window.removeEventListener("keyup", this.keyUp.bind(this));
+
+        delete this.controller;
+        delete this.display;
+        delete this.engine;
+        delete this.game;
     }
 }

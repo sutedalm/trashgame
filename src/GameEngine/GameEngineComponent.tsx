@@ -54,5 +54,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateDimensions);
+        this.game?.stop();
+        delete this.game;
     }
 }
