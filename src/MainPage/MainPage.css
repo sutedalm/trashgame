@@ -68,13 +68,17 @@
     transition: 0.5s;
 }
 
-.button:hover span {
+.button:hover:enabled span {
     padding-right: 25px;
 }
 
-.button:hover span:after {
+.button:hover:enabled span:after {
     opacity: 1;
     right: 0;
+}
+
+.button:disabled {
+    background-color: hsl(32deg, 100%, 82%)
 }
 
 .rightBody {
