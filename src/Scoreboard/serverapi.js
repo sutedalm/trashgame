@@ -15,12 +15,11 @@ export async function getDataFromDatabase() {
 }
 
 export async function sendDataToDatabase(username, score) {
-    await fetch(
-        `https://sheltered-forest-46021.herokuapp.com/update_score?user=${username}&score=${score}/`,
-        {
-            method: "GET",
-        }
-    )
+    const url = `https://sheltered-forest-46021.herokuapp.com/update_score?user=${username}&score=${score}`;
+
+    await fetch(url, {
+        method: "GET",
+    })
         .then((response) => response.json())
         .then((data) => {
             console.log(data);

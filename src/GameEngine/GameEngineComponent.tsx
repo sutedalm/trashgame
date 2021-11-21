@@ -10,6 +10,7 @@ interface IState {
     bottomHeight: string;
     gameOverScore: number | undefined;
     score: number;
+    adversaryScore: number;
 }
 
 export class GameEngineComponent extends Component<IProps, IState> {
@@ -22,6 +23,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
             bottomHeight: "60px",
             gameOverScore: undefined,
             score: 0,
+            adversaryScore: 0,
         };
         this.serverId = props.serverId;
     }
@@ -43,7 +45,11 @@ export class GameEngineComponent extends Component<IProps, IState> {
                 {this.state.gameOverScore !== undefined && (
                     <GameOverPopUp score={this.state.gameOverScore} />
                 )}
-                <Scoreboard score={this.state.score} />
+                <Scoreboard
+                    score={this.state.score}
+                    isMultiplayer={!!this.serverId}
+                    adversaryScore={this.state.adversaryScore}
+                />
             </div>
         );
     }
@@ -61,6 +67,12 @@ export class GameEngineComponent extends Component<IProps, IState> {
         gameEvents.onScorePoint.subscribe((score) => {
             this.setState({
                 score: score,
+            });
+        });
+
+        gameEvents.onEnemyScoreChange.subscribe((score) => {
+            this.setState({
+                adversaryScore: score,
             });
         });
 

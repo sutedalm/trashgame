@@ -39,7 +39,7 @@ export class Player2 implements Entity {
 
     render(display: Display) {
         //Render the player to the screen
-        display.drawRectangle(this.x, this.y, this.width, this.height, "#0000FF");
+        // display.drawRectangle(this.x, this.y, this.width, this.height, "#0000FF");
 
         const multiplayerLandmarks =
             this.multiplayerController.getMultiplayerData().player.landmarks;

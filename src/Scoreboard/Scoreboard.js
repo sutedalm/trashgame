@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import "./Scoreboard.css";
 
 const mock_data = [
+    { USERNAME: "Doge", SCORE: 420 },
     { USERNAME: "Maria", SCORE: 69 },
     { USERNAME: "Sebastien", SCORE: 42 },
     { USERNAME: "Jonas", SCORE: 3 },
@@ -30,7 +31,7 @@ function Scoreboard() {
                 <div className="scoreBoardContainer">
                     <Header />
                     <div className="trophyImageContainer">
-                        <img className="trophyImage" src="/places/trophy.png"></img>
+                        <img className="trophyImage" alt="Trophy" src="/places/trophy.png"></img>
                     </div>
                     <Table data={scoreData} />
                 </div>

@@ -60,11 +60,17 @@ export class Player implements Entity {
                 this.game.removeEntity(activeTrash.id);
                 if (!this.game.isMultiplayer())
                     this.game.addEntity(TrashItem.createRandom(this.game));
+                if (this.game.isMultiplayer())
+                    this.game.requestNewTrashItemForEnemy(activeTrash.category, activeTrash.name);
             } else if (activeTrash != null) {
                 this.game.subtractLife();
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
-                if (!this.game.isGameOver && !this.game.isMultiplayer()) {
+                if (
+                    !this.game.isGameOver &&
+                    !this.game.isMultiplayer() &&
+                    this.game.amountOfTrashItems === 0
+                ) {
                     this.game.addEntity(TrashItem.createRandom(this.game));
                 }
             }
@@ -75,7 +81,7 @@ export class Player implements Entity {
 
     render(display: Display) {
         //Render the player to the screen
-        display.drawRectangle(this.x, this.y, this.width, this.height, "#00FF00");
+        // display.drawRectangle(this.x, this.y, this.width, this.height, "#00FF00");
 
         const playerPositionLandmarks = getPlayerPostionData().landmarks;
 

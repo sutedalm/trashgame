@@ -14,7 +14,7 @@ import { BlinkingRectangle } from "./Entities/blinkingRectangle";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
-    private entities: Entity[] = [];
+    public entities: Entity[] = [];
     private tiles: Tile[] = [];
     private gui: Entity[] = [];
     public blinkingRect!: BlinkingRectangle;
@@ -22,7 +22,9 @@ export class Game {
     private lastUpdate: number | undefined;
 
     private lastTimeItemSummonned: number | undefined;
-    private summonDuration: number = 5000; // 5s between object summons
+    private get summonDuration(): number {
+        return 900 * (25 - this.difficultyLevel); // Start with 14s on lvl1, end on 5s on lvl10
+    }
 
     private player = new Player(0, 0, this);
     private scoreboard = new Scoreboard(this);
@@ -31,6 +33,11 @@ export class Game {
 
     public cameraCanvasWidth: number;
     public cameraCanvasHeight: number;
+
+    public difficultyLevel: number = 1;
+    public readonly maxLevel: number = 10;
+    // One out of 4 changes of increasing difficulty on addPoints
+    public readonly increaseDiffChance: number = 1 / 4;
 
     private serverId: string;
     public isGamePaused: boolean = false;
@@ -61,10 +68,6 @@ export class Game {
 
     initAssets() {
         this.initGUI();
-
-        if (!this.isMultiplayer()) {
-            this.entities.push(TrashItem.createRandom(this));
-        }
     }
 
     initGUI() {
@@ -105,9 +108,8 @@ export class Game {
             }
 
             if (
-                this.isMultiplayer() &&
-                (!this.lastTimeItemSummonned ||
-                    this.lastTimeItemSummonned + this.summonDuration < time_stamp)
+                !this.lastTimeItemSummonned ||
+                this.lastTimeItemSummonned + this.summonDuration < time_stamp
             ) {
                 // Summon an item every x seconds
                 this.lastTimeItemSummonned = time_stamp;
@@ -122,7 +124,7 @@ export class Game {
         const playerPositionData = getPlayerPostionData();
         let trash_items: any[] = [];
         for (let e of this.entities) {
-            if (e instanceof TrashItem) {
+            if (e instanceof TrashItem && !e.enemy) {
                 trash_items.push({
                     x: e.x,
                     y: e.y,
@@ -137,6 +139,7 @@ export class Game {
             player: playerPositionData,
             trash_items: trash_items,
             new_item: this.requested_item,
+            score: this.scoreboard.score,
         };
         // console.log("requestBody", requestBody);
         socket.emit("game update", this.serverId, requestBody);
@@ -209,6 +212,12 @@ export class Game {
         this.scoreboard.score += p;
         if (p !== 0) {
             this.gameEvents.onScorePoint.next(this.scoreboard.score);
+
+            // Increase difficulty
+            const incDiff = Math.random() < this.increaseDiffChance;
+            if (incDiff && this.difficultyLevel < this.maxLevel) {
+                this.difficultyLevel++;
+            }
         }
     }
 
@@ -241,6 +250,17 @@ export class Game {
         return cur;
     }
 
+    get amountOfTrashItems() {
+        let amount = 0;
+        for (let e of this.entities) {
+            if (e instanceof TrashItem) {
+                amount++;
+            }
+        }
+
+        return amount;
+    }
+
     stop() {
         this.gameEvents.stop();
     }
@@ -260,22 +280,36 @@ export class Game {
     }
 
     updateMultiplayerTrashItems(trash_items: any[]) {
-        for (let item of trash_items) {
-            let e = this.entities.find((value) => value.id === item.id) as TrashItem;
-            if (e) {
+        for (let e of this.entities) {
+            let itemI = trash_items.findIndex((value) => value.id === e.id);
+            if (itemI >= 0) {
+                let item = trash_items[itemI];
                 e.x = item.x;
                 e.y = item.y;
-            } else {
-                e = new TrashItem(item.x, item.y, item.category, item.name, true, this);
-                e.id = item.id;
-                e.active = false;
-                this.addEntity(e);
+                trash_items.splice(itemI, 1);
+            } else if (e instanceof TrashItem && e.enemy) {
+                this.removeEntity(e.id);
             }
+        }
+
+        for (let item of trash_items) {
+            let e = new TrashItem(
+                item.x,
+                item.y,
+                item.category,
+                item.name,
+                true,
+                this,
+                this.difficultyLevel
+            );
+            e.id = item.id;
+            e.active = false;
+            this.addEntity(e);
         }
     }
 
     isMultiplayer() {
-        return this.serverId ? true : false;
+        return !!this.serverId;
     }
 
     requestNewTrashItemForEnemy(cat: number, name: string) {
