@@ -168,10 +168,6 @@ export class Game {
 
     handleInput(controller: Controller) {
         this.player.handleInput(controller);
-
-        if (controller.enter.status) {
-            //TODO: Spawn trash items on pressing enter ?
-        }
     }
 
     resizeEvent(display: Display) {
@@ -257,8 +253,12 @@ export class Game {
                 amount++;
             }
         }
-
         return amount;
+    }
+
+    /// Returns all the items that are not enemy
+    get playerTrashItems(): Entity[] {
+        return this.entities.filter((e) => (e instanceof TrashItem ? !e.enemy : false));
     }
 
     stop() {

@@ -55,6 +55,7 @@ export class Player implements Entity {
             this.isInExercise = true;
             let activeTrash = this.game.getActiveTrashIcon();
             if (activeTrash != null && activeTrash.category === this.currentTile.num) {
+                // Put in the right basket
                 this.game.addPoints(100);
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
@@ -63,15 +64,17 @@ export class Player implements Entity {
                 if (this.game.isMultiplayer())
                     this.game.requestNewTrashItemForEnemy(activeTrash.category, activeTrash.name);
             } else if (activeTrash != null) {
+                // Put in the wrong basket
                 this.game.subtractLife();
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
-                if (
-                    !this.game.isGameOver &&
-                    !this.game.isMultiplayer() &&
-                    this.game.amountOfTrashItems === 0
-                ) {
-                    this.game.addEntity(TrashItem.createRandom(this.game));
+                if (!this.game.isGameOver) {
+                    if (!this.game.isMultiplayer() && this.game.amountOfTrashItems === 0) {
+                        this.game.addEntity(TrashItem.createRandom(this.game));
+                    }
+                    if (this.game.isMultiplayer() && this.game.playerTrashItems.length === 0) {
+                        this.game.addEntity(TrashItem.createRandom(this.game));
+                    }
                 }
             }
         } else if (handsfreeY < 0.4 && this.isInExercise) {
