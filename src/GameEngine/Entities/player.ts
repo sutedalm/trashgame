@@ -19,6 +19,7 @@ export class Player implements Entity {
     width = 64;
     height = 64;
     currentTile: Tile | undefined;
+    /// If the player is under the y threshold
     isInExercise = false;
 
     constructor(x: number, y: number, game: Game) {

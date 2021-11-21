@@ -41,7 +41,7 @@ export class Scoreboard extends Component<IProps, IState> {
             this.setState({ isExploding: true });
             setTimeout(() => {
                 this.setState({ isExploding: false });
-            }, 1000);
+            }, 1500);
         }
     }
 }

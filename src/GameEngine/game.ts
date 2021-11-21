@@ -21,6 +21,9 @@ export class Game {
 
     private lastUpdate: number | undefined;
 
+    private lastTimeItemSummonned: number | undefined;
+    private summonDuration: number = 5000; // 5s between object summons
+
     private player = new Player(0, 0, this);
     private scoreboard = new Scoreboard(this);
     public currentWidth = 0;
@@ -58,6 +61,10 @@ export class Game {
 
     initAssets() {
         this.initGUI();
+
+        if (!this.isMultiplayer()) {
+            this.entities.push(TrashItem.createRandom(this));
+        }
     }
 
     initGUI() {
@@ -95,6 +102,17 @@ export class Game {
             // Update all the entities
             for (let entity of this.entities) {
                 entity.update(dt);
+            }
+
+            if (
+                this.isMultiplayer() &&
+                (!this.lastTimeItemSummonned ||
+                    this.lastTimeItemSummonned + this.summonDuration < time_stamp)
+            ) {
+                // Summon an item every x seconds
+                this.lastTimeItemSummonned = time_stamp;
+
+                this.entities.push(TrashItem.createRandom(this));
             }
         }
 
