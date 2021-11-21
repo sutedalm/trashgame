@@ -30,11 +30,8 @@ export class Player2 implements Entity {
 
         const multiplayerPos = this.multiplayerController.getMultiplayerData()?.player;
         this.x =
-            convertRelativePos(
-                1 - multiplayerPos?.x,
-                this.game.cameraCanvasWidth,
-                this.width / 2
-            ) || this.x;
+            convertRelativePos(multiplayerPos?.x, this.game.cameraCanvasWidth, this.width / 2) ||
+            this.x;
         this.y =
             convertRelativePos(multiplayerPos?.y, this.game.cameraCanvasHeight, this.height / 2) ||
             this.y;
@@ -43,6 +40,40 @@ export class Player2 implements Entity {
     render(display: Display) {
         //Render the player to the screen
         display.drawRectangle(this.x, this.y, this.width, this.height, "#0000FF");
+
+        const multiplayerLandmarks =
+            this.multiplayerController.getMultiplayerData().player.landmarks;
+
+        const shoulders = multiplayerLandmarks.shoulders;
+        const elbows = multiplayerLandmarks.elbows;
+        const wrists = multiplayerLandmarks.wrists;
+        const hips = multiplayerLandmarks.hips;
+
+        const drawLine = (
+            startPoint: { x: number; y: number },
+            endPoint: { x: number; y: number }
+        ) => {
+            display.drawLine(
+                display.relXToAbs(startPoint.x),
+                display.relYToAbs(startPoint.y),
+                display.relXToAbs(endPoint.x),
+                display.relYToAbs(endPoint.y),
+                "#FF0000"
+            );
+        };
+
+        drawLine(shoulders.left, shoulders.right);
+        // left arm
+        drawLine(shoulders.left, elbows.left);
+        drawLine(elbows.left, wrists.left);
+
+        // right arm
+        drawLine(shoulders.right, elbows.right);
+        drawLine(elbows.right, wrists.right);
+
+        drawLine(shoulders.left, hips.left);
+        drawLine(shoulders.right, hips.right);
+        drawLine(hips.left, hips.right);
     }
 
     handleInput(controller: Controller) {}
