@@ -7,7 +7,7 @@ export async function getDataFromDatabase() {
     })
         .then((response) => response.json())
         .then((data) => {
-            scoreData = data.data[0];
+            scoreData = data.data;
         });
 
     console.log("scoreData", scoreData);
