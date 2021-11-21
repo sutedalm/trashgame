@@ -61,8 +61,18 @@ export class Player implements Entity {
                 this.game.removeEntity(activeTrash.id);
                 if (!this.game.isMultiplayer())
                     this.game.addEntity(TrashItem.createRandom(this.game));
-                if (this.game.isMultiplayer())
-                    this.game.requestNewTrashItemForEnemy(activeTrash.category, activeTrash.name);
+                if (this.game.isMultiplayer()) {
+                    if (this.game.multiplayerController.getMultiplayerData().isAlive) {
+                        // Other player is alive: Then we send the item over to the other player
+                        this.game.requestNewTrashItemForEnemy(
+                            activeTrash.category,
+                            activeTrash.name
+                        );
+                    } else {
+                        // Enemy dead, then we get a new item
+                        this.game.addEntity(TrashItem.createRandom(this.game));
+                    }
+                }
             } else if (activeTrash != null) {
                 // Put in the wrong basket
                 this.game.subtractLife();

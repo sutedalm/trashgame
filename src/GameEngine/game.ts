@@ -42,7 +42,7 @@ export class Game {
     private serverId: string;
     public isGamePaused: boolean = false;
     public isGameOver: boolean = false;
-    private multiplayerController = new MultiplayerController(this);
+    public multiplayerController = new MultiplayerController(this);
 
     private requested_item = { cat: -1, name: "" };
 
@@ -140,6 +140,7 @@ export class Game {
             trash_items: trash_items,
             new_item: this.requested_item,
             score: this.scoreboard.score,
+            isAlive: !this.isGameOver,
         };
         // console.log("requestBody", requestBody);
         socket.emit("game update", this.serverId, requestBody);
