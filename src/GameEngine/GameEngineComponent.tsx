@@ -30,7 +30,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
 
     render() {
         return (
-            <div>
+            <div className="game-engine-component">
                 <canvas></canvas>
                 <div className="frame">
                     <div className="sides"></div>
@@ -43,7 +43,11 @@ export class GameEngineComponent extends Component<IProps, IState> {
                     </div>
                 </div>
                 {this.state.gameOverScore !== undefined && (
-                    <GameOverPopUp score={this.state.gameOverScore} />
+                    <GameOverPopUp
+                        score={this.state.gameOverScore}
+                        isMultiplayer={!!this.serverId}
+                        adversaryScore={this.state.adversaryScore}
+                    />
                 )}
                 <Scoreboard
                     score={this.state.score}
