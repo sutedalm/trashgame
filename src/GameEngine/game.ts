@@ -257,14 +257,14 @@ export class Game {
     updateMultiplayerTrashItems(trash_items: any[]) {
         for (let e of this.entities) {
             let itemI = trash_items.findIndex((value) => value.id === e.id);
-            let item = trash_items[itemI];
-            if (item) {
+            if (itemI >= 0) {
+                let item = trash_items[itemI];
                 e.x = item.x;
                 e.y = item.y;
+                trash_items.splice(itemI, 1);
             } else if (e instanceof TrashItem && e.enemy) {
                 this.removeEntity(e.id);
             }
-            trash_items.splice(itemI, 1);
         }
 
         for (let item of trash_items) {
