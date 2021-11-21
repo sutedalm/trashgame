@@ -9,6 +9,7 @@ import { Scoreboard } from "./Entities/scoreboard";
 import socket, { MultiplayerController } from "./multiplayer";
 import { Player2 } from "./Entities/player2";
 import { GameEventController } from "./Events/gameEventController";
+import { getPlayerPostionData } from "./handsfreeController";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -94,12 +95,11 @@ export class Game {
         }
 
         // multiplayer
+        const playerPositionData = getPlayerPostionData();
         const requestBody = {
-            player: {
-                x: this.player.x,
-                y: this.player.y,
-            },
+            player: playerPositionData,
         };
+        // console.log("requestBody", requestBody);
         socket.emit("game update", this.serverId, requestBody);
     }
 

@@ -20,7 +20,7 @@ export class Player2 implements Entity {
     width = 64;
     height = 64;
 
-    constructor( game: Game, multiplayerController: MultiplayerController) {
+    constructor(game: Game, multiplayerController: MultiplayerController) {
         const multiplayerPos = multiplayerController.getMultiplayerData().player;
         this.x = multiplayerPos.x;
         this.y = multiplayerPos.y;
@@ -29,10 +29,19 @@ export class Player2 implements Entity {
     }
 
     update(dt: number) {
-        const multiplayerPos = this.multiplayerController.getMultiplayerData().player;
-        this.x = multiplayerPos.x;
-        this.y = multiplayerPos.y;
+        const convertRelativePos = (relPos: number, absLength: number, offset: number) =>
+            relPos * absLength - offset;
 
+        const multiplayerPos = this.multiplayerController.getMultiplayerData()?.player;
+        this.x =
+            convertRelativePos(
+                1 - multiplayerPos?.x,
+                this.game.cameraCanvasWidth,
+                this.width / 2
+            ) || this.x;
+        this.y =
+            convertRelativePos(multiplayerPos?.y, this.game.cameraCanvasHeight, this.height / 2) ||
+            this.y;
     }
 
     render(display: Display) {
