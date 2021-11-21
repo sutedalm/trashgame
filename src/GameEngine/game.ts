@@ -34,6 +34,8 @@ export class Game {
     public isGameOver: boolean = false;
     private multiplayerController = new MultiplayerController(this);
 
+    private requested_item = { cat: -1, name: "" };
+
     public gameEvents: GameEventController;
 
     constructor(display: Display, serverId: string) {
@@ -56,7 +58,6 @@ export class Game {
 
     initAssets() {
         this.initGUI();
-        this.addEntity(TrashItem.createRandom(this));
     }
 
     initGUI() {
@@ -117,9 +118,11 @@ export class Game {
         const requestBody = {
             player: playerPositionData,
             trash_items: trash_items,
+            new_item: this.requested_item,
         };
         // console.log("requestBody", requestBody);
         socket.emit("game update", this.serverId, requestBody);
+        this.requested_item.cat = -1;
     }
 
     render(display: Display) {
@@ -251,5 +254,13 @@ export class Game {
                 this.addEntity(e);
             }
         }
+    }
+
+    isMultiplayer() {
+        return this.serverId ? true : false;
+    }
+
+    requestNewTrashItemForEnemy(cat: number, name: string) {
+        this.requested_item = { cat: cat, name: name };
     }
 }

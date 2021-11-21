@@ -1,22 +1,56 @@
 .container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  .gameover {
-    background: white;
+    .gameover {
+        background: white;
+        width: 50%;
+        height: 50%;
+        border-radius: 5px;
+        text-align: center;
+        background-image: url(../../images/undraw_mindfulness_scgo.png);
+        box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
-    width: 50%;
-    height: 50%;
+    .scoreSubmitButton {
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        background-color: #ffa726;
+        font-size: medium;
+        font-weight: bolder;
+        font-family: "Comfortaa", cursive;
+        border: none;
+        padding: 1em;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 10px;
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.5);
+    }
 
-    border-radius: 5px;
+    .usernameInputEndGamePopup {
+        margin: 1em;
+        padding: 1em;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.5);
+    }
 
-    text-align: center;
-  }
+    .gameover > h2 {
+        font-weight: bolder;
+    }
+
+    .returnHomeButton {
+        padding: 8em;
+    }
 }

@@ -26,7 +26,7 @@ export default class Table extends Component {
         return items.map((row, index) => {
             return (
                 <tr key={index}>
-                    <RenderRow key={index} data={row} keys={keys} />
+                    <RenderRow key={index} data={row} keys={keys} index={index} />
                 </tr>
             );
         });
@@ -34,6 +34,7 @@ export default class Table extends Component {
     render() {
         return (
             <div className="tableContainer">
+                <div className="tablePlaceImages"></div>
                 <table className="scoreboardTable">
                     <thead className="scoreboardThead">
                         <tr>{this.getHeader()}</tr>
@@ -47,6 +48,25 @@ export default class Table extends Component {
 
 const RenderRow = (props) => {
     return props.keys.map((key, index) => {
+        if (props.index === 0 && index === 0) {
+            return (
+                <td key={props.data[key]}>
+                    <img className="firstPlaceImg" src="/places/medal.png"></img> {props.data[key]}
+                </td>
+            );
+        } else if (props.index === 1 && index === 0) {
+            return (
+                <td key={props.data[key]}>
+                    <img className="firstPlaceImg" src="/places/place2.png"></img> {props.data[key]}
+                </td>
+            );
+        } else if (props.index === 2 && index === 0) {
+            return (
+                <td key={props.data[key]}>
+                    <img className="firstPlaceImg" src="/places/place3.png"></img> {props.data[key]}
+                </td>
+            );
+        }
         return <td key={props.data[key]}>{props.data[key]}</td>;
     });
 };

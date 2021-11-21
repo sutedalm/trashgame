@@ -1,9 +1,19 @@
 import Header from "../components/Header/Header";
 import { getDataFromDatabase } from "./serverapi";
 import Table from "./Table";
+import { useEffect, useState } from "react";
+import "./Scoreboard.css";
 
 function Scoreboard() {
-    getDataFromDatabase();
+    const [scoreData, setScoreData] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const fetchedData = await getDataFromDatabase();
+            setScoreData(fetchedData);
+        })();
+    }, []);
+
     let data = [
         { USERNAME: "Apple", SCORE: 100 },
         { USERNAME: "Orange", SCORE: 50 },
@@ -13,10 +23,17 @@ function Scoreboard() {
         { USERNAME: "Papaya", SCORE: 40 },
         { USERNAME: "Watermelon", SCORE: 35 },
     ];
-    return (
+    return !!data ? (
         <div>
             <Header />
             <Table data={data} />
+        </div>
+    ) : (
+        <div>
+            <Header />
+            <div className="cantConnectToDataBase">
+                <p>Couldn't connect to database.</p>
+            </div>
         </div>
     );
 }

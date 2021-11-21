@@ -34,6 +34,8 @@ export class Display {
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
         let toLoad = TrashItem.getImagesToLoad();
         toLoad.push("heart.png");
+        toLoad.push("red.png");
+        toLoad.push("green.png");
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;
@@ -60,8 +62,23 @@ export class Display {
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
     }
 
-    drawImage(x: number, y: number, width: number, height: number, name: string) {
+    drawCircle(x: number, y: number, radius: number, color: string) {
+        this.buffer.beginPath();
+        this.buffer.arc(x + radius, y + radius, radius, 0, 2 * Math.PI, false);
+        this.buffer.fillStyle = color;
+        this.buffer.fill();
+    }
+
+    drawImage(
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        name: string,
+        angle: number = 0
+    ) {
         if (this.imageLoader.isLoaded) {
+            this.buffer.rotate(angle);
             this.buffer.drawImage(
                 this.imageLoader.getImage(name),
                 Math.floor(x),
@@ -69,6 +86,7 @@ export class Display {
                 width,
                 height
             );
+            this.buffer.rotate(-angle);
         } else {
             // this.drawRectangle(x, y, width, height, "red");
         }
@@ -79,6 +97,22 @@ export class Display {
         this.buffer.fillStyle = color;
         this.buffer.textAlign = center ? "center" : "left";
         this.buffer.fillText(text, x, y);
+    }
+
+    drawLine(xStart: number, yStart: number, xEnd: number, yEnd: number, color: string) {
+        this.buffer.beginPath();
+        this.buffer.strokeStyle = color;
+        this.buffer.lineWidth = 20;
+        this.buffer.moveTo(xStart, yStart);
+        this.buffer.lineTo(xEnd, yEnd);
+        this.buffer.stroke();
+    }
+
+    relXToAbs(relX: number) {
+        return relX * (this.cameraCanvas.width as number);
+    }
+    relYToAbs(relY: number) {
+        return relY * (this.cameraCanvas.height as number);
     }
 
     render() {

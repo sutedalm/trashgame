@@ -1,4 +1,5 @@
 .scoreboardTable {
+    margin-top: 1em;
     border: 1px solid black;
     width: 50%;
     border-collapse: collapse;
@@ -13,7 +14,7 @@ td {
     border-bottom: 1px solid #ddd;
 }
 tr:hover {
-    background-color: #ffdead;
+    background-color: #ebdbff;
 }
 
 .tableContainer {
@@ -21,7 +22,7 @@ tr:hover {
 }
 
 th {
-    background-color: #b36c02;
+    background-color: #ce79ff;
     color: white;
     border-bottom: 1px solid #000;
 }
@@ -29,4 +30,8 @@ th {
 td {
     border-left: 1px solid #000;
     border-right: 1px solid #000;
+}
+
+.firstPlaceImg {
+    width: 30px;
 }
