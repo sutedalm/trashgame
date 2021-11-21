@@ -23,7 +23,7 @@ function Scoreboard() {
         { USERNAME: "Papaya", SCORE: 40 },
         { USERNAME: "Watermelon", SCORE: 35 },
     ];
-    return !!scoreData ? (
+    return !!data ? (
         <div>
             <Header />
             <Table data={data} />

@@ -49,7 +49,7 @@ export class GameOverPopUp extends Component<IProps, IState> {
                     />
 
                     <Link
-                        to="/"
+                        to="/scoreboard"
                         className="scoreSubmitButton"
                         onClick={(event) => this.onSubmit(this.props.score, this.state.username)}
                     >

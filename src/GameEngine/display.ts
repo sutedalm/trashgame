@@ -99,6 +99,22 @@ export class Display {
         this.buffer.fillText(text, x, y);
     }
 
+    drawLine(xStart: number, yStart: number, xEnd: number, yEnd: number, color: string) {
+        this.buffer.beginPath();
+        this.buffer.strokeStyle = color;
+        this.buffer.lineWidth = 20;
+        this.buffer.moveTo(xStart, yStart);
+        this.buffer.lineTo(xEnd, yEnd);
+        this.buffer.stroke();
+    }
+
+    relXToAbs(relX: number) {
+        return relX * (this.cameraCanvas.width as number);
+    }
+    relYToAbs(relY: number) {
+        return relY * (this.cameraCanvas.height as number);
+    }
+
     render() {
         this.context.drawImage(this.buffer.canvas, 0, 0);
     }
