@@ -14,7 +14,7 @@ import { BlinkingRectangle } from "./Entities/blinkingRectangle";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
-    private entities: Entity[] = [];
+    public entities: Entity[] = [];
     private tiles: Tile[] = [];
     private gui: Entity[] = [];
     public blinkingRect!: BlinkingRectangle;
@@ -61,10 +61,6 @@ export class Game {
 
     initAssets() {
         this.initGUI();
-
-        if (!this.isMultiplayer()) {
-            this.entities.push(TrashItem.createRandom(this));
-        }
     }
 
     initGUI() {
@@ -105,9 +101,8 @@ export class Game {
             }
 
             if (
-                this.isMultiplayer() &&
-                (!this.lastTimeItemSummonned ||
-                    this.lastTimeItemSummonned + this.summonDuration < time_stamp)
+                !this.lastTimeItemSummonned ||
+                this.lastTimeItemSummonned + this.summonDuration < time_stamp
             ) {
                 // Summon an item every x seconds
                 this.lastTimeItemSummonned = time_stamp;
@@ -281,7 +276,7 @@ export class Game {
     }
 
     isMultiplayer() {
-        return this.serverId ? true : false;
+        return !!this.serverId;
     }
 
     requestNewTrashItemForEnemy(cat: number, name: string) {
