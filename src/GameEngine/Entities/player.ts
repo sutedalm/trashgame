@@ -77,7 +77,7 @@ export class Player implements Entity {
 
     render(display: Display) {
         //Render the player to the screen
-        display.drawRectangle(this.x, this.y, this.width, this.height, "#00FF00");
+        // display.drawRectangle(this.x, this.y, this.width, this.height, "#00FF00");
 
         const playerPositionLandmarks = getPlayerPostionData().landmarks;
 
