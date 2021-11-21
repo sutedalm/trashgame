@@ -117,7 +117,7 @@ export class Game {
         const playerPositionData = getPlayerPostionData();
         let trash_items: any[] = [];
         for (let e of this.entities) {
-            if (e instanceof TrashItem) {
+            if (e instanceof TrashItem && !e.enemy) {
                 trash_items.push({
                     x: e.x,
                     y: e.y,
