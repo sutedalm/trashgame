@@ -2,11 +2,7 @@ import { Entity } from "./entity";
 import { Display } from "../display";
 import { Controller } from "../controller";
 import { v4 as uuid } from "uuid";
-import { Tile } from "./tile";
 import { Game } from "../game";
-import { EventManager } from "../Events/eventManager";
-import { EntityEnterTileEvent } from "../Events/entityEnterTileEvent";
-import { EntityLeaveTileEvent } from "../Events/entityLeaveTileEvent";
 import { MultiplayerController } from "../multiplayer";
 
 export class Player2 implements Entity {

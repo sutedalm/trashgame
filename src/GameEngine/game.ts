@@ -30,7 +30,7 @@ export class Game {
     private serverId: string;
     public isGamePaused: boolean = false;
     public isGameOver: boolean = false;
-    private multiplayerController = new MultiplayerController();
+    private multiplayerController = new MultiplayerController(this);
 
     public gameEvents: GameEventController;
 
@@ -96,8 +96,22 @@ export class Game {
 
         // multiplayer
         const playerPositionData = getPlayerPostionData();
+        let trash_items: any[] = [];
+        for (let e of this.entities) {
+            if (e instanceof TrashItem) {
+                trash_items.push({
+                    x: e.x,
+                    y: e.y,
+                    id: e.id,
+                    category: e.category,
+                    name: e.name,
+                });
+            }
+        }
+
         const requestBody = {
             player: playerPositionData,
+            trash_items: trash_items,
         };
         // console.log("requestBody", requestBody);
         socket.emit("game update", this.serverId, requestBody);
@@ -213,5 +227,24 @@ export class Game {
 
     resume() {
         this.isGamePaused = false;
+    }
+
+    updateMultiplayerTrashItems(trash_items: any[]) {
+        for (let item of trash_items) {
+            let e = this.entities.find((value) => value.id === item.id) as TrashItem;
+            if (e) {
+                e.x = item.x;
+                e.y = item.y;
+            } else {
+                e = new TrashItem(item.x, item.y, item.category, item.name, true, this);
+                e.id = item.id;
+                e.active = false;
+                this.addEntity(e);
+            }
+        }
+    }
+
+    isMultiplayer() {
+        return this.serverId ? true : false;
     }
 }

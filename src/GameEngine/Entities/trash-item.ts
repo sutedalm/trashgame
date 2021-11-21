@@ -18,6 +18,7 @@ export class TrashItem implements Entity {
     category: number;
     game: Game;
     active = true;
+    enemy: boolean;
 
     x = 0;
     y = 0;
@@ -38,15 +39,31 @@ export class TrashItem implements Entity {
     private readonly tileTransitionDuration = 0.5 * 1000; // 0.5s
     private tileTransitionStartX = 0;
 
-    constructor(x: number, y: number, category: number, name: string, game: Game) {
+    constructor(x: number, y: number, category: number, name: string, enemy: boolean, game: Game) {
         this.x = x;
         this.y = y;
         this.category = category;
         this.name = name;
+        this.enemy = enemy;
         this.game = game;
     }
 
     render(display: Display): void {
+        if (this.game.isMultiplayer()) {
+            /*display.drawCircle(
+                this.x - this.width / 2 - 8,
+                this.y - this.height / 2 - 8,
+                this.width / 2 + 8,
+                this.enemy ? "rgba(255, 0, 0, 0.5)" : "rgba(0,255,0,0.5)"
+            );*/
+            display.drawImage(
+                this.x - (this.width + 64) / 2,
+                this.y - (this.height + 64) / 2,
+                this.width + 64,
+                this.height + 64,
+                this.enemy ? "red.png" : "green.png"
+            );
+        }
         display.drawImage(
             this.x - this.width / 2,
             this.y - this.height / 2,
@@ -104,7 +121,7 @@ export class TrashItem implements Entity {
                 this.velocityY += dt * 0.003 * this.level * 0.5 * heightRatio;
             }
 
-            this.y += this.velocityY;
+            if (!this.enemy) this.y += this.velocityY;
 
             // If the user didn't squat before end of the game
             if (this.y + this.height / 2 >= this.game.cameraCanvasHeight) {
@@ -128,6 +145,7 @@ export class TrashItem implements Entity {
     }
 
     private doTileTransition(dt: number) {
+        if (this.enemy) return;
         let startX = this.tileTransitionStartX;
         let endTileCenter = this.getTileCenter(this.selectedTile);
         let endX = TrashItem.getPositionX(
@@ -149,6 +167,7 @@ export class TrashItem implements Entity {
             0,
             cat,
             TrashItem.names[cat][Math.floor(Math.random() * TrashItem.names[cat].length)],
+            false,
             game
         );
     }

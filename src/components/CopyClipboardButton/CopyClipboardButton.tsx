@@ -1,5 +1,5 @@
-import multiplayer, { useMultiplayerId } from "../../GameEngine/multiplayer";
-import { useEffect, useState } from "react";
+import { useMultiplayerId } from "../../GameEngine/multiplayer";
+import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import clipboardIcon from "./icons8-kopieren-24.png";
 

@@ -20,7 +20,7 @@ export class Scoreboard implements Entity {
         for (let i = 0; i < this.lifes; i++) {
             display.drawImage(25 + 42 * i, 80, 32, 32, "heart.png");
         }
-        if (this.lifes == 0) {
+        if (this.lifes === 0) {
             display.drawText(
                 this.game.cameraCanvasWidth / 2,
                 this.game.cameraCanvasHeight / 2,

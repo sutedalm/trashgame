@@ -1,5 +1,7 @@
+
 import { useState } from "react";
 import socketIOClient from "socket.io-client";
+import { Game } from "./game";
 import { getPlayerPostionData, PlayerPostionData } from "./handsfreeController";
 
 const ENDPOINT = "https://sheltered-forest-46021.herokuapp.com/";
@@ -20,15 +22,20 @@ export function useMultiplayerId() {
 export class MultiplayerController {
     private multiplayerData: {
         player: PlayerPostionData;
+        trash_items: any[];
     };
-    constructor() {
+    private game: Game;
+    constructor(game: Game) {
+      this.game = game;
         // this format has to be same as in game.ts (requestBody)
         this.multiplayerData = {
             player: getPlayerPostionData(),
+            trash_items: [],
         };
 
         socket.on("game update", (body) => {
             this.multiplayerData = body;
+            game.updateMultiplayerTrashItems(body.trash_items);
         });
     }
 

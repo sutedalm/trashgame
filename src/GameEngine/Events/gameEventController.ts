@@ -1,8 +1,6 @@
 import { Subject } from "rxjs";
 
 export class GameEventController {
-    constructor() {}
-
     stop() {
         this.onGameOver.complete();
         this.onScorePoint.complete();
