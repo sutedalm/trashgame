@@ -30,7 +30,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
 
     render() {
         return (
-            <div>
+            <div className="game-engine-component">
                 <canvas></canvas>
                 <div className="frame">
                     <div className="sides"></div>
