@@ -11,6 +11,12 @@
     height: 4.5em;
 }
 
+.headerLogo {
+    width: 10%;
+    height: fit-content;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
 .headerNav {
     padding-right: 1em;
     font-size: 1.2em;
