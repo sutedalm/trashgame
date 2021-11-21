@@ -261,7 +261,7 @@ export class Game {
             if (item) {
                 e.x = item.x;
                 e.y = item.y;
-            } else {
+            } else if (e instanceof TrashItem && e.enemy) {
                 this.removeEntity(e.id);
             }
             trash_items.splice(itemI, 1);
