@@ -2,6 +2,7 @@
     display: flex;
     width: 100%;
     justify-content: center;
+
     /* align-items: center; */
 }
 
@@ -13,6 +14,8 @@
     padding: 1em;
     width: 50%;
     text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.5);
 }
 
 .footerSectionHeader {
