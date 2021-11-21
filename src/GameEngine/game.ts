@@ -260,17 +260,23 @@ export class Game {
     }
 
     updateMultiplayerTrashItems(trash_items: any[]) {
-        for (let item of trash_items) {
-            let e = this.entities.find((value) => value.id === item.id) as TrashItem;
-            if (e) {
+        for (let e of this.entities) {
+            let itemI = trash_items.findIndex((value) => value.id === e.id);
+            let item = trash_items[itemI];
+            if (item) {
                 e.x = item.x;
                 e.y = item.y;
             } else {
-                e = new TrashItem(item.x, item.y, item.category, item.name, true, this);
-                e.id = item.id;
-                e.active = false;
-                this.addEntity(e);
+                this.removeEntity(e.id);
             }
+            trash_items.splice(itemI, 1);
+        }
+
+        for (let item of trash_items) {
+            let e = new TrashItem(item.x, item.y, item.category, item.name, true, this);
+            e.id = item.id;
+            e.active = false;
+            this.addEntity(e);
         }
     }
 
