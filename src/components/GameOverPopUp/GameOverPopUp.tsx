@@ -36,6 +36,7 @@ export class GameOverPopUp extends Component<IProps, IState> {
                     <h2>Game Over</h2>
                     <p>You got a score of {this.props.score}!</p>
                     <input
+                        className="usernameInputEndGamePopup"
                         type="text"
                         placeholder="Your username"
                         value={this.state.username}

@@ -1,0 +1,5 @@
+.cantConnectToDataBase {
+    padding-left: 1em;
+    color: red;
+    font-style: italic;
+}

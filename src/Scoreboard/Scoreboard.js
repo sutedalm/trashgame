@@ -2,7 +2,7 @@ import Header from "../components/Header/Header";
 import { getDataFromDatabase } from "./serverapi";
 import Table from "./Table";
 import { useEffect, useState } from "react";
-// import useFetch from "react-fetch-hook";
+import "./Scoreboard.css";
 
 function Scoreboard() {
     const [scoreData, setScoreData] = useState([]);
@@ -23,10 +23,17 @@ function Scoreboard() {
         { USERNAME: "Papaya", SCORE: 40 },
         { USERNAME: "Watermelon", SCORE: 35 },
     ];
-    return (
+    return !!scoreData ? (
         <div>
             <Header />
-            <Table data={scoreData} />
+            <Table data={data} />
+        </div>
+    ) : (
+        <div>
+            <Header />
+            <div className="cantConnectToDataBase">
+                <p>Couldn't connect to database.</p>
+            </div>
         </div>
     );
 }
