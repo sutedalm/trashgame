@@ -17,7 +17,7 @@ function MainPage({ serverId, setServerId }) {
                     <p className="footerSectionText">
                         There will be objects (food waste) falling from the ceiling
                     </p>
-                    <img className="footerImages" src="/places/scr1.png" />
+                    <img className="footerImages" src="/places/scr1.png" alt="Game demo" />
                     <p className="footerSectionText">
                         You need to move to the correct section of the screen and make a squat, so
                         that the object falls into the correct trashcan. If you miss the object or
