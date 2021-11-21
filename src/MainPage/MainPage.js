@@ -6,6 +6,7 @@ import JoinGameForm from "../components/JoinGameForm/JoinGameForm";
 import { useNavigate } from "react-router-dom";
 import socket from "./../GameEngine/multiplayer";
 import Header from "../components/Header/Header";
+import Footer from "../components/Footer/Footer";
 
 function MainPage({ serverId, setServerId }) {
     const navigate = useNavigate();
@@ -39,6 +40,7 @@ function MainPage({ serverId, setServerId }) {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }
