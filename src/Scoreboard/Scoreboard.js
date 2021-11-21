@@ -23,13 +23,13 @@ function Scoreboard() {
         { USERNAME: "Papaya", SCORE: 40 },
         { USERNAME: "Watermelon", SCORE: 35 },
     ];
-    return !!data ? (
+    return !!scoreData ? (
         <div className="scoreBoardContainer">
             <Header />
             <div className="trophyImageContainer">
                 <img className="trophyImage" src="/places/trophy.png"></img>
             </div>
-            <Table data={data} />
+            <Table data={scoreData} />
             <svg
                 className="fancyScoreboardShape"
                 viewBox="0 0 1440 240"
