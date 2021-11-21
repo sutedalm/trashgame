@@ -20,8 +20,14 @@ export class TrashItem implements Entity {
     active = true;
     enemy: boolean;
 
+    get isFollowingPlayer(): boolean {
+        let iconId = this.game.getActiveTrashIcon()?.id;
+        return !iconId ? false : iconId === this.id;
+    }
+
     x = 0;
     y = 0;
+    spawnX = 0;
 
     private readonly startVelocity = 0.2;
     private get maxVelocity() {
@@ -42,6 +48,7 @@ export class TrashItem implements Entity {
     constructor(x: number, y: number, category: number, name: string, enemy: boolean, game: Game) {
         this.x = x;
         this.y = y;
+        this.spawnX = x;
         this.category = category;
         this.name = name;
         this.enemy = enemy;
@@ -91,26 +98,32 @@ export class TrashItem implements Entity {
                 newSelectedTile = 3;
             }
 
-            if (this.selectedTile !== newSelectedTile) {
-                // Tile changed since last time
-                this.selectedTile = newSelectedTile;
+            if (this.isFollowingPlayer) {
+                if (this.selectedTile !== newSelectedTile) {
+                    // Tile changed since last time
+                    this.selectedTile = newSelectedTile;
 
-                this.tileTransitionStartX = this.x;
+                    this.tileTransitionStartX = this.x;
 
-                // Transition between the tiles on the x axis
-                this.tileTransitionStartTime = this.elapsedTime;
-                this.doTileTransition(dt);
-            } else if (
-                this.elapsedTime <
-                this.tileTransitionStartTime + this.tileTransitionDuration
-            ) {
-                this.doTileTransition(dt);
+                    // Transition between the tiles on the x axis
+                    this.tileTransitionStartTime = this.elapsedTime;
+                    this.doTileTransition(dt);
+                } else if (
+                    this.elapsedTime <
+                    this.tileTransitionStartTime + this.tileTransitionDuration
+                ) {
+                    this.doTileTransition(dt);
+                } else {
+                    // Tile the same as before
+
+                    this.x = this.getTileCenter(this.selectedTile);
+
+                    // "Leaf swing" animation
+                    this.x = TrashItem.getPositionX(this.x, this.elapsedTime);
+                }
             } else {
-                // Tile the same as before
-                this.x = this.getTileCenter(this.selectedTile);
-
                 // "Leaf swing" animation
-                this.x = TrashItem.getPositionX(this.x, this.elapsedTime);
+                this.x = TrashItem.getPositionX(this.spawnX, this.elapsedTime);
             }
 
             // Adapt the speed depending on height, so that it always takes same amount of time
@@ -160,7 +173,7 @@ export class TrashItem implements Entity {
     }
 
     static createRandom(game: Game) {
-        let x = Math.floor(Math.random() * game.cameraCanvasWidth);
+        let x = Math.floor(Math.random() * (game.cameraCanvasWidth - 100) + 50);
         let cat = Math.floor(Math.random() * 3);
         return new TrashItem(
             x,
