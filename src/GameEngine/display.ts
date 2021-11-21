@@ -70,7 +70,7 @@ export class Display {
                 height
             );
         } else {
-            this.drawRectangle(x, y, width, height, "red");
+            // this.drawRectangle(x, y, width, height, "red");
         }
     }
 

@@ -47,6 +47,8 @@ export class Player implements Entity {
             EventManager.OnEntityEnterTileEvent(new EntityEnterTileEvent(this.currentTile, this));
         }
 
+        if (this.game.isGamePaused) return;
+
         if (handsfreeY > 0.6 && !this.isInExercise) {
             this.isInExercise = true;
             let activeTrash = this.game.getActiveTrashIcon();
@@ -59,7 +61,9 @@ export class Player implements Entity {
                 this.game.subtractLife();
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
-                this.game.addEntity(TrashItem.createRandom(this.game));
+                if (!this.game.isGameOver) {
+                    this.game.addEntity(TrashItem.createRandom(this.game));
+                }
             }
         } else if (handsfreeY < 0.4 && this.isInExercise) {
             this.isInExercise = false;

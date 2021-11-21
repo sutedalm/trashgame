@@ -35,7 +35,7 @@ function MainPage({ serverId, setServerId }) {
                         <span>START A GAME</span>
                     </Link>
                 </div>
-                <div class="rightBody">
+                <div className="rightBody">
                     <h2 className="leftBodyHeader">Multiplayer</h2>
                     <h5 className="leftBodySubHeader">Send the server code to a friend!</h5>
                     <div className="rightBodyButtons">

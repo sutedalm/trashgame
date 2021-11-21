@@ -84,6 +84,8 @@ export class TrashGame {
     }
 
     triggerController(keyCode, status) {
+        if (this.controller === undefined) return;
+
         switch (keyCode) {
             case 90:
                 this.controller.up.trigger(status);
@@ -112,6 +114,8 @@ export class TrashGame {
         window.removeEventListener("resize", this.resize.bind(this));
         window.removeEventListener("keydown", this.keyDown.bind(this));
         window.removeEventListener("keyup", this.keyUp.bind(this));
+
+        this.game.stop();
 
         delete this.controller;
         delete this.display;
