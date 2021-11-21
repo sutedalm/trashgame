@@ -1,7 +1,7 @@
 import "./GameOverPopUp.scss";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { sendDataToDatabase } from "../../Scoreboard/serverapi.js";
 interface IProps {
     score: number;
 }
@@ -19,9 +19,13 @@ export class GameOverPopUp extends Component<IProps, IState> {
     }
 
     onSubmit(score: number, username: string) {
+        if (!username) {
+            username = "anonymous";
+        }
+
         console.log("score", score);
         console.log("username", username);
-        const linkSuffix = `update_score?user=${username}&score=${score}`;
+        sendDataToDatabase(username, score);
     }
 
     updateInputValue(evt: any) {
@@ -43,12 +47,20 @@ export class GameOverPopUp extends Component<IProps, IState> {
                         value={this.state.username}
                         onChange={(evt) => this.updateInputValue(evt)}
                     />
-                    <button
+
+                    <Link
+                        to="/"
+                        className="scoreSubmitButton"
+                        onClick={(event) => this.onSubmit(this.props.score, this.state.username)}
+                    >
+                        <span>Submit to Scoreboard!</span>
+                    </Link>
+                    {/* <button
                         className="scoreSubmitButton"
                         onClick={(event) => this.onSubmit(this.props.score, this.state.username)}
                     >
                         Submit to Scoreboard!
-                    </button>
+                    </button> */}
 
                     <div className="returnHomeButton">
                         <Link to="/" className="scoreSubmitButton">
