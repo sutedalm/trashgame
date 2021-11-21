@@ -34,6 +34,8 @@ export class Display {
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
         let toLoad = TrashItem.getImagesToLoad();
         toLoad.push("heart.png");
+        toLoad.push("red.png");
+        toLoad.push("green.png");
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;
