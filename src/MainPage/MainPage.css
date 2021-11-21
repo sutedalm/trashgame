@@ -148,3 +148,16 @@
         transform: translateX(10vw) translateY(100vh) rotateZ(0deg);
     }
 }
+
+.mainPageWabyPicture {
+    position: relative;
+    bottom: 0;
+    z-index: -10;
+    transform: rotate(0deg);
+    transition: 0.3s;
+}
+
+.wavePathVar {
+    transform: translate(0, 0px);
+    opacity: 1;
+}

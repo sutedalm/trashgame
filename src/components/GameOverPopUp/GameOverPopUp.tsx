@@ -79,6 +79,10 @@ export class GameOverPopUp extends Component<IProps, IState> {
                         <Link to="/" className="scoreSubmitButton">
                             <span>Return to Homepage</span>
                         </Link>
+
+                        <Link to="/game" className="playAgainButton">
+                            <span>Play Again!</span>
+                        </Link>
                     </div>
                 </div>
             </div>
