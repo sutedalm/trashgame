@@ -165,6 +165,9 @@ export class Game {
 
     addPoints(p: number) {
         this.scoreboard.score += p;
+        if (p !== 0) {
+            this.gameEvents.onScorePoint.next(this.scoreboard.score);
+        }
     }
 
     subtractLife() {
