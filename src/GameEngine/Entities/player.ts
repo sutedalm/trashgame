@@ -8,6 +8,7 @@ import { EventManager } from "../Events/eventManager";
 import { EntityEnterTileEvent } from "../Events/entityEnterTileEvent";
 import { EntityLeaveTileEvent } from "../Events/entityLeaveTileEvent";
 import { TrashItem } from "./trash-item";
+import { getPlayerPostionData } from "../handsfreeController";
 
 export class Player implements Entity {
     x: number;
@@ -56,12 +57,13 @@ export class Player implements Entity {
                 this.game.addPoints(100);
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
-                this.game.addEntity(TrashItem.createRandom(this.game));
+                if (!this.game.isMultiplayer())
+                    this.game.addEntity(TrashItem.createRandom(this.game));
             } else if (activeTrash != null) {
                 this.game.subtractLife();
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
-                if (!this.game.isGameOver) {
+                if (!this.game.isGameOver && !this.game.isMultiplayer()) {
                     this.game.addEntity(TrashItem.createRandom(this.game));
                 }
             }
@@ -72,7 +74,40 @@ export class Player implements Entity {
 
     render(display: Display) {
         //Render the player to the screen
-        display.drawRectangle(this.x, this.y, this.width, this.height, "#FF0000");
+        display.drawRectangle(this.x, this.y, this.width, this.height, "#00FF00");
+
+        const playerPositionLandmarks = getPlayerPostionData().landmarks;
+
+        const shoulders = playerPositionLandmarks.shoulders;
+        const elbows = playerPositionLandmarks.elbows;
+        const wrists = playerPositionLandmarks.wrists;
+        const hips = playerPositionLandmarks.hips;
+
+        const drawLine = (
+            startPoint: { x: number; y: number },
+            endPoint: { x: number; y: number }
+        ) => {
+            display.drawLine(
+                display.relXToAbs(startPoint.x),
+                display.relYToAbs(startPoint.y),
+                display.relXToAbs(endPoint.x),
+                display.relYToAbs(endPoint.y),
+                "#00FF00"
+            );
+        };
+
+        drawLine(shoulders.left, shoulders.right);
+        // left arm
+        drawLine(shoulders.left, elbows.left);
+        drawLine(elbows.left, wrists.left);
+
+        // right arm
+        drawLine(shoulders.right, elbows.right);
+        drawLine(elbows.right, wrists.right);
+
+        drawLine(shoulders.left, hips.left);
+        drawLine(shoulders.right, hips.right);
+        drawLine(hips.left, hips.right);
     }
 
     handleInput(controller: Controller) {}
