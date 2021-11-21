@@ -18,6 +18,7 @@ export class TrashItem implements Entity {
     category: number;
     game: Game;
     active = true;
+    enemy: boolean;
 
     x = 0;
     y = 0;
@@ -38,15 +39,23 @@ export class TrashItem implements Entity {
     private readonly tileTransitionDuration = 0.5 * 1000; // 0.5s
     private tileTransitionStartX = 0;
 
-    constructor(x: number, y: number, category: number, name: string, game: Game) {
+    constructor(x: number, y: number, category: number, name: string, enemy: boolean, game: Game) {
         this.x = x;
         this.y = y;
         this.category = category;
         this.name = name;
+        this.enemy = enemy;
         this.game = game;
     }
 
     render(display: Display): void {
+        display.drawRectangle(
+            this.x - this.width / 2,
+            this.y - this.height / 2,
+            this.width,
+            this.height,
+            this.enemy ? "#ff0000" : "#00ff00"
+        );
         display.drawImage(
             this.x - this.width / 2,
             this.y - this.height / 2,
@@ -147,6 +156,7 @@ export class TrashItem implements Entity {
             0,
             cat,
             TrashItem.names[cat][Math.floor(Math.random() * TrashItem.names[cat].length)],
+            false,
             game
         );
     }

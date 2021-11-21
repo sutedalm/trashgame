@@ -33,7 +33,7 @@ export class Game {
     public cameraCanvasHeight: number;
 
     private serverId: string;
-    private multiplayerController = new MultiplayerController();
+    private multiplayerController = new MultiplayerController(this);
 
     constructor(display: Display, serverId: string) {
         this.currentWidth = display.context.canvas.width;
@@ -46,7 +46,7 @@ export class Game {
 
         this.initAssets();
 
-        if(this.serverId){
+        if (this.serverId) {
             this.addEntity(new Player2(this, this.multiplayerController));
         }
     }
@@ -118,13 +118,27 @@ export class Game {
         this.colorOppGray = "rgb(" + minOppColor + "," + minOppColor + "," + minOppColor + ")";
 
         // multiplayer
+        let trash_items: any[] = [];
+        for (let e of this.entities) {
+            if (e instanceof TrashItem) {
+                trash_items.push({
+                    x: e.x,
+                    y: e.y,
+                    id: e.id,
+                    category: e.category,
+                    name: e.name,
+                });
+            }
+        }
+
         const requestBody = {
             player: {
                 x: this.player.x,
                 y: this.player.y,
-            }
-        }
-        socket.emit("game update", this.serverId,  requestBody);
+            },
+            trash_items: trash_items,
+        };
+        socket.emit("game update", this.serverId, requestBody);
     }
 
     render(display: Display) {
@@ -216,5 +230,20 @@ export class Game {
             }
         }
         return cur;
+    }
+
+    updateMultiplayerTrashItems(trash_items: any[]) {
+        for (let item of trash_items) {
+            let e = <TrashItem>this.entities.find((value) => value.id === item.id);
+            if (e) {
+                e.x = item.x;
+                e.y = item.y;
+            } else {
+                e = new TrashItem(item.x, item.y, item.category, item.name, true, this);
+                e.id = item.id;
+                e.active = false;
+                this.addEntity(e);
+            }
+        }
     }
 }
