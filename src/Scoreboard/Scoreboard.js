@@ -4,7 +4,12 @@ import Table from "./Table";
 import { useEffect, useState } from "react";
 import "./Scoreboard.css";
 
-const mock_data = [];
+const mock_data = [
+    { USERNAME: "Maria", SCORE: 69 },
+    { USERNAME: "Sebastien", SCORE: 42 },
+    { USERNAME: "Jonas", SCORE: 3 },
+    { USERNAME: "Almo", SCORE: 1 },
+];
 
 function Scoreboard() {
     const [scoreData, setScoreData] = useState(mock_data);
