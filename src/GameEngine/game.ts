@@ -10,12 +10,14 @@ import socket, { MultiplayerController } from "./multiplayer";
 import { Player2 } from "./Entities/player2";
 import { GameEventController } from "./Events/gameEventController";
 import { getPlayerPostionData } from "./handsfreeController";
+import { BlinkingRectangle } from "./Entities/blinkingRectangle";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
     private entities: Entity[] = [];
     private tiles: Tile[] = [];
     private gui: Entity[] = [];
+    public blinkingRect!: BlinkingRectangle;
 
     private lastUpdate: number | undefined;
 
@@ -73,6 +75,7 @@ export class Game {
         // Init all the two lines delimiting the 3 zones
         this.gui.push(new Rectangle(width * 0.3333, 0, lineWidth, height, "#555555"));
         this.gui.push(new Rectangle(width * 0.6666, 0, lineWidth, height, "#555555"));
+        this.blinkingRect = new BlinkingRectangle(0, 0, width, height, "#FF000025");
         this.gui.push(this.scoreboard);
     }
 
@@ -93,6 +96,8 @@ export class Game {
                 entity.update(dt);
             }
         }
+
+        this.blinkingRect.update(dt);
 
         // multiplayer
         const playerPositionData = getPlayerPostionData();
@@ -133,6 +138,8 @@ export class Game {
         for (let gui of this.gui) {
             gui.render(display);
         }
+
+        this.blinkingRect.render(display);
     }
 
     handleInput(controller: Controller) {
@@ -186,6 +193,8 @@ export class Game {
 
     subtractLife() {
         this.scoreboard.lifes -= 1;
+        this.blinkingRect.blink();
+
         if (this.scoreboard.lifes === 0) {
             this.onGameOver();
         }
