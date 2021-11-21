@@ -1,5 +1,6 @@
 import "./GameOverPopUp.scss";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 interface IProps {
     score: number;
@@ -48,6 +49,12 @@ export class GameOverPopUp extends Component<IProps, IState> {
                     >
                         Submit to Scoreboard!
                     </button>
+
+                    <div className="returnHomeButton">
+                        <Link to="/" className="scoreSubmitButton">
+                            <span>Return to Homepage</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
