@@ -4,6 +4,8 @@ import ConfettiExplosion from "@reonomy/react-confetti-explosion";
 
 interface IProps {
     score: number;
+    adversaryScore: number;
+    isMultiplayer: boolean;
 }
 
 interface IState {
@@ -26,11 +28,29 @@ export class Scoreboard extends Component<IProps, IState> {
                         <ConfettiExplosion />
                     </div>
                 )}
-                <div className="scoreboard-container">
+                <div className="scoreboard-container left">
                     <div className="score">
-                        <p>Score: {this.props.score}</p>
+                        <p>
+                            {this.props.isMultiplayer && (
+                                <span className="multiplayer-label you">You: </span>
+                            )}
+                            Score: {this.props.score}
+                        </p>
                     </div>
                 </div>
+
+                {this.props.isMultiplayer && (
+                    <div className="scoreboard-container right">
+                        <div className="score">
+                            <p>
+                                {this.props.isMultiplayer && (
+                                    <span className="multiplayer-label">Adv: </span>
+                                )}
+                                Score: {this.props.adversaryScore}
+                            </p>
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }

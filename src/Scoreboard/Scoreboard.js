@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import "./Scoreboard.css";
 
 const mock_data = [
+    { USERNAME: "Doge", SCORE: 420 },
     { USERNAME: "Maria", SCORE: 69 },
     { USERNAME: "Sebastien", SCORE: 42 },
     { USERNAME: "Jonas", SCORE: 3 },
