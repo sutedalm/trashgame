@@ -15,14 +15,16 @@ function MainPage({ serverId, setServerId }) {
                 <div>
                     <h2 className="footerSectionHeader">How to play</h2>
                     <p className="footerSectionText">
-                        There will be objects (food waste) falling from the ceiling
+                        !!!Make sure that half of your body is seen in the screen when you play
+                        (like in our demo video)!!! There will be objects (food waste) falling from
+                        the ceiling:
                     </p>
                     <img className="footerImages" src="/places/scr1.png" alt="Game demo" />
                     <p className="footerSectionText">
-                        You need to move to the correct section of the screen and make a squat, so
-                        that the object falls into the correct trashcan. If you miss the object or
-                        put it into a wrong can, you will loose a life. Be careful, you have only 3
-                        lives!! Don't waste them easily/
+                        You need to move to the correct section of the screen and squat, so that the
+                        object falls into the correct trashcan. If you miss the object or put it
+                        into a wrong can, you will loose a life. Be careful, you have only 3 lives!!
+                        Don't waste them easily/
                     </p>
                 </div>
                 <div>
@@ -34,6 +36,10 @@ function MainPage({ serverId, setServerId }) {
                         automatically redirected into your own room, where you will be playing
                         against each other. The person with the most scores wins!
                     </p>
+                </div>
+                <div>
+                    <h2 className="footerSectionHeader">Demo</h2>
+                    <p className="footerSectionText">https://youtu.be/oqkJfVjx7Sc</p>
                 </div>
             </div>
         </div>
