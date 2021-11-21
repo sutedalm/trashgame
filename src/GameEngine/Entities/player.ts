@@ -52,7 +52,7 @@ export class Player implements Entity {
         if (handsfreeY > 0.6 && !this.isInExercise) {
             this.isInExercise = true;
             let activeTrash = this.game.getActiveTrashIcon();
-            if (activeTrash != null && activeTrash.category == this.currentTile.num) {
+            if (activeTrash != null && activeTrash.category === this.currentTile.num) {
                 this.game.addPoints(100);
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
