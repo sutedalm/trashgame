@@ -132,6 +132,7 @@ export class Game {
             player: playerPositionData,
             trash_items: trash_items,
             new_item: this.requested_item,
+            score: this.scoreboard.score,
         };
         // console.log("requestBody", requestBody);
         socket.emit("game update", this.serverId, requestBody);
