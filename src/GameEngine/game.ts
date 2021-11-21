@@ -231,7 +231,7 @@ export class Game {
 
     updateMultiplayerTrashItems(trash_items: any[]) {
         for (let item of trash_items) {
-            let e = <TrashItem>this.entities.find((value) => value.id === item.id);
+            let e = this.entities.find((value) => value.id === item.id) as TrashItem;
             if (e) {
                 e.x = item.x;
                 e.y = item.y;
