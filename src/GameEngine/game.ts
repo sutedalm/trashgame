@@ -42,7 +42,7 @@ export class Game {
     private serverId: string;
     public isGamePaused: boolean = false;
     public isGameOver: boolean = false;
-    private multiplayerController = new MultiplayerController(this);
+    public multiplayerController = new MultiplayerController(this);
 
     private requested_item = { cat: -1, name: "" };
 
@@ -140,6 +140,7 @@ export class Game {
             trash_items: trash_items,
             new_item: this.requested_item,
             score: this.scoreboard.score,
+            isAlive: !this.isGameOver,
         };
         // console.log("requestBody", requestBody);
         socket.emit("game update", this.serverId, requestBody);
@@ -168,10 +169,6 @@ export class Game {
 
     handleInput(controller: Controller) {
         this.player.handleInput(controller);
-
-        if (controller.enter.status) {
-            //TODO: Spawn trash items on pressing enter ?
-        }
     }
 
     resizeEvent(display: Display) {
@@ -257,8 +254,12 @@ export class Game {
                 amount++;
             }
         }
-
         return amount;
+    }
+
+    /// Returns all the items that are not enemy
+    get playerTrashItems(): Entity[] {
+        return this.entities.filter((e) => (e instanceof TrashItem ? !e.enemy : false));
     }
 
     stop() {

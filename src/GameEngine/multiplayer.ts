@@ -25,6 +25,7 @@ export class MultiplayerController {
         trash_items: any[];
         new_item: { cat: number; name: string };
         score: number;
+        isAlive: boolean;
     };
     private oldScore = -1;
     private game: Game;
@@ -36,11 +37,13 @@ export class MultiplayerController {
             trash_items: [],
             new_item: { cat: -1, name: "" },
             score: 0,
+            isAlive: true,
         };
 
         socket.on("game update", (body) => {
             this.multiplayerData = body;
             game.updateMultiplayerTrashItems(body.trash_items);
+
             if (body.score !== this.oldScore) {
                 this.game.gameEvents.onEnemyScoreChange.next(body.score);
                 this.oldScore = body.score;
