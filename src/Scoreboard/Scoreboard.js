@@ -4,12 +4,7 @@ import Table from "./Table";
 import { useEffect, useState } from "react";
 import "./Scoreboard.css";
 
-const mock_data = [
-    { USERNAME: "Maria", SCORE: 69 },
-    { USERNAME: "Sebastien", SCORE: 42 },
-    { USERNAME: "Jonas", SCORE: 3 },
-    { USERNAME: "Almo", SCORE: 1 },
-];
+const mock_data = [];
 
 function Scoreboard() {
     const [scoreData, setScoreData] = useState(mock_data);
@@ -30,7 +25,7 @@ function Scoreboard() {
                 <div className="scoreBoardContainer">
                     <Header />
                     <div className="trophyImageContainer">
-                        <img className="trophyImage" src="/places/trophy.png"></img>
+                        <img className="trophyImage" alt="Trophy" src="/places/trophy.png"></img>
                     </div>
                     <Table data={scoreData} />
                 </div>

@@ -51,19 +51,26 @@ const RenderRow = (props) => {
         if (props.index === 0 && index === 0) {
             return (
                 <td key={props.data[key]}>
-                    <img className="firstPlaceImg" src="/places/medal.png"></img> {props.data[key]}
+                    <img className="firstPlaceImg" alt="First place" src="/places/medal.png"></img>{" "}
+                    {props.data[key]}
                 </td>
             );
         } else if (props.index === 1 && index === 0) {
             return (
                 <td key={props.data[key]}>
-                    <img className="firstPlaceImg" src="/places/place2.png"></img> {props.data[key]}
+                    <img
+                        className="firstPlaceImg"
+                        alt="Second place"
+                        src="/places/place2.png"
+                    ></img>{" "}
+                    {props.data[key]}
                 </td>
             );
         } else if (props.index === 2 && index === 0) {
             return (
                 <td key={props.data[key]}>
-                    <img className="firstPlaceImg" src="/places/place3.png"></img> {props.data[key]}
+                    <img className="firstPlaceImg" alt="Third place" src="/places/place3.png"></img>{" "}
+                    {props.data[key]}
                 </td>
             );
         }
