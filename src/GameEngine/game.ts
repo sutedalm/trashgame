@@ -22,7 +22,9 @@ export class Game {
     private lastUpdate: number | undefined;
 
     private lastTimeItemSummonned: number | undefined;
-    private summonDuration: number = 5000; // 5s between object summons
+    private get summonDuration(): number {
+        return 900 * (25 - this.difficultyLevel); // Start with 14s on lvl1, end on 5s on lvl10
+    }
 
     private player = new Player(0, 0, this);
     private scoreboard = new Scoreboard(this);
@@ -31,6 +33,11 @@ export class Game {
 
     public cameraCanvasWidth: number;
     public cameraCanvasHeight: number;
+
+    public difficultyLevel: number = 1;
+    public readonly maxLevel: number = 10;
+    // One out of 4 changes of increasing difficulty on addPoints
+    public readonly increaseDiffChance: number = 1 / 4;
 
     private serverId: string;
     public isGamePaused: boolean = false;
@@ -204,6 +211,12 @@ export class Game {
         this.scoreboard.score += p;
         if (p !== 0) {
             this.gameEvents.onScorePoint.next(this.scoreboard.score);
+
+            // Increase difficulty
+            const incDiff = Math.random() < this.increaseDiffChance;
+            if (incDiff && this.difficultyLevel < this.maxLevel) {
+                this.difficultyLevel++;
+            }
         }
     }
 
@@ -234,6 +247,17 @@ export class Game {
             }
         }
         return cur;
+    }
+
+    get amountOfTrashItems() {
+        let amount = 0;
+        for (let e of this.entities) {
+            if (e instanceof TrashItem) {
+                amount++;
+            }
+        }
+
+        return amount;
     }
 
     stop() {
@@ -268,7 +292,15 @@ export class Game {
         }
 
         for (let item of trash_items) {
-            let e = new TrashItem(item.x, item.y, item.category, item.name, true, this);
+            let e = new TrashItem(
+                item.x,
+                item.y,
+                item.category,
+                item.name,
+                true,
+                this,
+                this.difficultyLevel
+            );
             e.id = item.id;
             e.active = false;
             this.addEntity(e);

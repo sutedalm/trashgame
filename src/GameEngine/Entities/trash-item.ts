@@ -34,7 +34,7 @@ export class TrashItem implements Entity {
         return this.level * 3;
     }
     private velocityY = this.startVelocity;
-    private level = 1; // 1 easiest - 10 hardest
+    private level: number; // 1 easiest - 10 hardest
 
     // Either tile 1 2 or 3
     private selectedTile = 2;
@@ -45,7 +45,15 @@ export class TrashItem implements Entity {
     private readonly tileTransitionDuration = 0.5 * 1000; // 0.5s
     private tileTransitionStartX = 0;
 
-    constructor(x: number, y: number, category: number, name: string, enemy: boolean, game: Game) {
+    constructor(
+        x: number,
+        y: number,
+        category: number,
+        name: string,
+        enemy: boolean,
+        game: Game,
+        level: number = 1
+    ) {
         this.x = x;
         this.y = y;
         this.spawnX = x;
@@ -53,6 +61,7 @@ export class TrashItem implements Entity {
         this.name = name;
         this.enemy = enemy;
         this.game = game;
+        this.level = level;
     }
 
     render(display: Display): void {
@@ -181,7 +190,8 @@ export class TrashItem implements Entity {
             cat,
             TrashItem.names[cat][Math.floor(Math.random() * TrashItem.names[cat].length)],
             false,
-            game
+            game,
+            game.difficultyLevel
         );
     }
 

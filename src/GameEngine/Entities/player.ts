@@ -66,7 +66,11 @@ export class Player implements Entity {
                 this.game.subtractLife();
                 activeTrash.active = false;
                 this.game.removeEntity(activeTrash.id);
-                if (!this.game.isGameOver && !this.game.isMultiplayer()) {
+                if (
+                    !this.game.isGameOver &&
+                    !this.game.isMultiplayer() &&
+                    this.game.amountOfTrashItems === 0
+                ) {
                     this.game.addEntity(TrashItem.createRandom(this.game));
                 }
             }

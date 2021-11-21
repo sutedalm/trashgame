@@ -53,7 +53,7 @@ export class Display {
 
         this.buffer.setTransform(-1, 0, 0, 1, this.context.canvas.width, 0);
         this.buffer.drawImage(this.cameraCanvas, 0, 0);
-        this.buffer.drawImage(this.camDebugCanvas, 0, 0);
+        // this.buffer.drawImage(this.camDebugCanvas, 0, 0);
         this.buffer.setTransform(1, 0, 0, 1, 0, 0);
     }
 
