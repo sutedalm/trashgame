@@ -17,15 +17,15 @@ const JoinGameForm = (props: { serverId: string; setServerId: Function }) => {
     };
     return (
         <div className="JoinGameForm__container">
-            <button className="button" disabled={!multiplayerId} onClick={handleButtonClick}>
-                <span>JOIN A GAME</span>
-            </button>
             <input
                 type="text"
                 placeholder="JOIN CODE"
                 value={props.serverId}
                 onChange={handleChange}
             />
+            <button className="button" disabled={!multiplayerId} onClick={handleButtonClick}>
+                <span>JOIN A GAME</span>
+            </button>
         </div>
     );
 };
