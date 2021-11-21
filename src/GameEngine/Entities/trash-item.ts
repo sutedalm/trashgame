@@ -49,13 +49,14 @@ export class TrashItem implements Entity {
     }
 
     render(display: Display): void {
-        display.drawRectangle(
-            this.x - this.width / 2,
-            this.y - this.height / 2,
-            this.width,
-            this.height,
-            this.enemy ? "#ff0000" : "#00ff00"
-        );
+        if (this.game.isMultiplayer()) {
+            display.drawCircle(
+                this.x - this.width / 2 - 8,
+                this.y - this.height / 2 - 8,
+                this.width / 2 + 8,
+                this.enemy ? "rgba(255, 0, 0, 0.5)" : "#00ff00"
+            );
+        }
         display.drawImage(
             this.x - this.width / 2,
             this.y - this.height / 2,

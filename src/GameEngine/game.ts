@@ -243,4 +243,8 @@ export class Game {
             }
         }
     }
+
+    isMultiplayer() {
+        return this.serverId ? true : false;
+    }
 }
