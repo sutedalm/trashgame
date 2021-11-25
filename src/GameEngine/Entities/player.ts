@@ -51,6 +51,14 @@ export class Player implements Entity {
 
         if (this.game.isGamePaused) return;
 
+        if (handsfreeY > 0.6) {
+            this.game.setRecognizedState(2);
+        } else if (handsfreeY >= 0.4) {
+            this.game.setRecognizedState(1);
+        } else {
+            this.game.setRecognizedState(0);
+        }
+
         if (handsfreeY > 0.6 && !this.isInExercise) {
             this.isInExercise = true;
             let activeTrash = this.game.getActiveTrashIcon();

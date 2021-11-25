@@ -36,6 +36,9 @@ export class Display {
         toLoad.push("heart.png");
         toLoad.push("red.png");
         toLoad.push("green.png");
+        toLoad.push("stand.png");
+        toLoad.push("thumb-down.png");
+        toLoad.push("squat.png");
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;

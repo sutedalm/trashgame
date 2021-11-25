@@ -15,9 +15,11 @@ function MainPage({ serverId, setServerId }) {
                 <div>
                     <h2 className="footerSectionHeader">How to play</h2>
                     <p className="footerSectionText">
-                        !!!Make sure that half of your body is seen in the screen when you play
-                        (like in our demo video)!!! There will be objects (food waste) falling from
-                        the ceiling:
+                        <b>IMPORTANT:</b> Make sure that at least half of your body is seen in the
+                        screen when you play (like in our demo video). Also make sure the angle of
+                        the camera is appropriate. You can check this using the icon below the
+                        health bar which indicates when you are recognized as standing or squatting.
+                        There will be objects (food waste) falling from the ceiling:
                     </p>
                     <img className="footerImages" src="/places/scr1.png" alt="Game demo" />
                     <p className="footerSectionText">
@@ -31,7 +33,7 @@ function MainPage({ serverId, setServerId }) {
                     <h2 className="footerSectionHeader">Multiplayer mode</h2>
                     <p className="footerSectionText">
                         Currently our app supports only 2 people playing together. To play with your
-                        friends, send them your uniqely generated room code from the right section
+                        friends, send them your uniquely generated room code from the right section
                         of the screen! As soon as they copy-paste it and start the game, you will be
                         automatically redirected into your own room, where you will be playing
                         against each other. The person with the most scores wins!
@@ -39,7 +41,9 @@ function MainPage({ serverId, setServerId }) {
                 </div>
                 <div>
                     <h2 className="footerSectionHeader">Demo</h2>
-                    <p className="footerSectionText">https://youtu.be/oqkJfVjx7Sc</p>
+                    <p className="footerSectionText">
+                        <a href="https://youtu.be/oqkJfVjx7Sc">https://youtu.be/oqkJfVjx7Sc</a>
+                    </p>
                 </div>
             </div>
         </div>

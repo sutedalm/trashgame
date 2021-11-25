@@ -9,6 +9,7 @@ export class Scoreboard implements Entity {
     id = uuid();
     score = 0;
     lifes = 3;
+    state = -1;
     game: Game;
 
     constructor(game: Game) {
@@ -29,6 +30,20 @@ export class Scoreboard implements Entity {
                 "black",
                 false
             );
+        }
+
+        switch (this.state) {
+            case 0:
+                display.drawImage(25, 90, 32, 32, "stand.png");
+                break;
+            case 1:
+                //display.drawImage(25, 90, 32, 32, "thumb-down.png");
+                break;
+            case 2:
+                display.drawImage(25, 90, 32, 32, "squat.png");
+                break;
+            default:
+                break;
         }
     }
 

@@ -316,4 +316,8 @@ export class Game {
     requestNewTrashItemForEnemy(cat: number, name: string) {
         this.requested_item = { cat: cat, name: name };
     }
+
+    setRecognizedState(state: number) {
+        this.scoreboard.state = state;
+    }
 }
